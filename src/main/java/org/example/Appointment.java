@@ -14,8 +14,8 @@ public class Appointment implements Serializable {
     protected LocalDate date;
     @ManyToOne(targetEntity = Clinic.class)
     protected Clinic clinic;
-    @ManyToOne(targetEntity = Patient.class)
-    Patient patient;
+//    @ManyToOne(targetEntity = Patient.class)
+//    Patient patient;
 
     public Appointment() {
     }
