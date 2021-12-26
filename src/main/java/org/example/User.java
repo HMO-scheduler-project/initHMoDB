@@ -17,6 +17,7 @@ public class User implements Serializable {
     private String username;
     private String password;
     private int card_num;
+    private boolean logged_in;
 
     public User(String first_name, String last_name, String username, String plainPassword,int card_num) throws NoSuchAlgorithmException {
         super();
@@ -25,6 +26,7 @@ public class User implements Serializable {
         this.username = username;
         this.card_num = card_num;
         this.password = hashPassword(plainPassword);
+        this.logged_in = false;
     }
 
     public User() {
@@ -88,5 +90,13 @@ public class User implements Serializable {
     }
     public void setCardNum(int card_num){
         this.card_num = card_num;
+    }
+
+    public boolean isLogged_in() {
+        return logged_in;
+    }
+
+    public void setLogged_in(boolean logged_in) {
+        this.logged_in = logged_in;
     }
 }
