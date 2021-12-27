@@ -3,38 +3,54 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.Arrays;
 
 @Entity
-public class User implements Serializable {
+public class User implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private int id;
-    private String first_name;
-    private String last_name;
-    private String username;
-    private String password;
-    private int card_num;
-    private boolean logged_in;
+    public int user_id;
+    protected String username;
+    protected String password;
+    protected int card_num;
+    protected String first_name;
+    protected String last_name;
+    boolean logged_in;
+    @OneToOne (targetEntity = GreenPass.class)
+    protected GreenPass greenPass;
 
-    public User(String first_name, String last_name, String username, String plainPassword,int card_num) throws NoSuchAlgorithmException {
-        super();
+    public User() { }
+    public User(String username, String password,int card,String first_name,String last_name) throws NoSuchAlgorithmException {
+        this.username = username;
         this.first_name = first_name;
         this.last_name = last_name;
-        this.username = username;
-        this.card_num = card_num;
-        this.password = hashPassword(plainPassword);
+        this.card_num = card;
+        this.password = hashPassword(password);
         this.logged_in = false;
+        this.greenPass = null;
     }
 
-    public User() {
-        super();
-        this.first_name = null;
-        this.last_name = null;
-        this.username = null;
-        this.password = null;
+    public int getUserId() {
+        return user_id;
+    }
+
+    public void setUserId(int userId) {
+        user_id = userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public boolean checkPassword(String password) throws NoSuchAlgorithmException {
+        return this.password.equals(hashPassword(password));
+    }
+
+    public void setPassword(String password) throws NoSuchAlgorithmException {
+        this.password = hashPassword(password);
     }
 
     private String hashPassword(String plainPassword) throws NoSuchAlgorithmException {
@@ -53,8 +69,10 @@ public class User implements Serializable {
     }
 
     private String getSalt() throws NoSuchAlgorithmException {
-        return first_name+card_num;
+        return String.valueOf(card_num);
     }
+
+
 
     public String getFirstName() {
         return first_name;
@@ -63,40 +81,50 @@ public class User implements Serializable {
     public void setFirstName(String name) {
         this.first_name = name;
     }
+
     public String getLastName() {
         return last_name;
     }
+
     public void setLastName(String name) {
         this.last_name = name;
-    }
-    public String getUsername() {
-        return username;
-    }
-    public void setUsername(String username) {
-        this.username = username;
-    }
-    public boolean checkPassword(String password) throws NoSuchAlgorithmException {
-        return hashPassword(password).equals(this.password);
-    }
-    public String getPassword(){
-        return password;
-    }
-    public int getId() {
-        return id;
     }
 
     public int getCardNum(){
         return card_num;
     }
-    public void setCardNum(int card_num){
-        this.card_num = card_num;
+
+    public void setCardNum(int num){
+        this.card_num = num;
     }
 
-    public boolean isLogged_in() {
+    public boolean checkCard(int num){
+        return num==card_num;
+    }
+
+    public boolean isLoggedIn() {
         return logged_in;
     }
 
-    public void setLogged_in(boolean logged_in) {
-        this.logged_in = logged_in;
+    public void setLoggedIn(boolean log_in) {
+        this.logged_in = log_in;
     }
+
+    public GreenPass getGreenPass() {
+        return greenPass;
+    }
+
+    public void setGreenPass(GreenPass greenPass) {
+        this.greenPass = greenPass;
+    }
+
+    @Override
+    public String toString() {
+        return "username: "+username
+                +", password: "+password
+                +", card number: "+card_num
+                +", first name: "+first_name
+                +", last name: "+last_name;
+    }
+
 }

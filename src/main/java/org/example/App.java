@@ -1,4 +1,8 @@
 package org.example;
+import org.example.Reports.AwaitingTimeRep;
+import org.example.Reports.MissedAppRep;
+import org.example.Reports.ServicesTypeRep;
+import org.example.Reports.WeeklyReport;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -8,6 +12,8 @@ import org.hibernate.service.ServiceRegistry;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Random;
@@ -18,17 +24,32 @@ public class App
     private static Session session;
     private static SessionFactory getSessionFactory() throws HibernateException {
         Configuration configuration = new Configuration();
-        configuration.addAnnotatedClass(User.class);
-        configuration.addAnnotatedClass(Employee.class);
-        configuration.addAnnotatedClass(Manager.class);
-        configuration.addAnnotatedClass(HMO_Manager.class);
-        configuration.addAnnotatedClass(Clinic.class);
-        configuration.addAnnotatedClass(Nurse.class);
-        configuration.addAnnotatedClass(LabWorker.class);
+        configuration.addAnnotatedClass(AwaitingTimeRep.class);
+        configuration.addAnnotatedClass(MissedAppRep.class);
+        configuration.addAnnotatedClass(ServicesTypeRep.class);
+        configuration.addAnnotatedClass(WeeklyReport.class);
         configuration.addAnnotatedClass(Appointment.class);
+        configuration.addAnnotatedClass(childrenDoctorApp.class);
+        configuration.addAnnotatedClass(Clinic.class);
+        configuration.addAnnotatedClass(Covid19Test.class);
+        configuration.addAnnotatedClass(Covid19VaccineApp.class);
+        configuration.addAnnotatedClass(CovidQuestionnaire.class);
+        configuration.addAnnotatedClass(Doctor.class);
+        configuration.addAnnotatedClass(doctorApp.class);
+        configuration.addAnnotatedClass(Employee.class);
+        configuration.addAnnotatedClass(familyDoctorApp.class);
+        configuration.addAnnotatedClass(GreenPass.class);
+        configuration.addAnnotatedClass(HMO_Manager.class);
+        configuration.addAnnotatedClass(InfluenzaVaccineApp.class);
         configuration.addAnnotatedClass(LabApp.class);
+        configuration.addAnnotatedClass(LabWorker.class);
+        configuration.addAnnotatedClass(Manager.class);
+        configuration.addAnnotatedClass(Nurse.class);
         configuration.addAnnotatedClass(NurseApp.class);
         configuration.addAnnotatedClass(Patient.class);
+        configuration.addAnnotatedClass(SpecialDoctor.class);
+        configuration.addAnnotatedClass(specialDoctorApp.class);
+        configuration.addAnnotatedClass(User.class);
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties())
                 .build();
         return configuration.buildSessionFactory(serviceRegistry);
@@ -39,173 +60,163 @@ public class App
         // create instance of Random class
         Random rand = new Random();
         int card_num = rand.nextInt(100000);
-        HMO_Manager employee1 = new HMO_Manager("Agoldstein","AG5449@","Alex","Goldstein",card_num,"agoldstein@good_health.com", "HMO_Managment",null);
+        HMO_Manager employee1 = new HMO_Manager("Agoldstein","AG1234","Alex","Goldstein",card_num,"agoldstein@good_health.com", "HMO_Managment",null);
         session.save(employee1);
         session.flush();
         card_num = rand.nextInt(100000);
-        Manager employee2 = new Manager("Rcohen","RC9681%","Ruth","Cohen","clinic manager",card_num,"rcohen@good_health.com", "Denia",null);
+        Manager employee2 = new Manager("Rcohen","RC1234","Ruth","Cohen","clinic manager",card_num,"rcohen@good_health.com", "Denia",null);
         session.save(employee2);
         session.flush();
         card_num = rand.nextInt(100000);
-        Manager employee3 = new Manager("Mlevi","ML8192$","Maya","Levi","clinic manager",card_num,"mlevi@good_health.com", "Neve shaanan",null);
+        Manager employee3 = new Manager("Mlevi","ML1234","Maya","Levi","clinic manager",card_num,"mlevi@good_health.com", "Neve shaanan",null);
         session.save(employee3);
         session.flush();
         card_num = rand.nextInt(100000);
-
-        Employee employee4 = new Employee("Dliberman","DL9788#","David","Liberman","cardiologist",card_num,"dliberman@good_health.com", "Carmel");
+        SpecialDoctor employee4 = new SpecialDoctor("Dliberman","DL1234","David","Liberman","cardiologist",card_num,"dliberman@good_health.com", "Carmel",null);
         session.save(employee4);
         session.flush();
         card_num = rand.nextInt(100000);
-
-        Manager employee5 = new Manager("Daviv","DA6872&","Dan","Aviv","clinic manager",card_num,"daviv@good_health.com", "Nesher",null);
+        Manager employee5 = new Manager("Daviv","DA1234","Dan","Aviv","clinic manager",card_num,"daviv@good_health.com", "Nesher",null);
         session.save(employee5);
         session.flush();
         card_num = rand.nextInt(100000);
-        Manager employee6 = new Manager("TShuster","TS7383%","Tal","Shuster","clinic manager",card_num,"tshuster@good_health.com", "Hadar",null);
+        Manager employee6 = new Manager("TShuster","TS1234","Tal","Shuster","clinic manager",card_num,"tshuster@good_health.com", "Hadar",null);
         session.save(employee6);
         session.flush();
         card_num = rand.nextInt(100000);
-
-        Employee employee7 = new Employee("REldar","RE7462%","Rachel","Eldar","pediatrician",card_num,"reldar@good_health.com", "Hadar");
+        Doctor employee7 = new Doctor("REldar","RE1234","Rachel","Eldar","pediatrician",card_num,"reldar@good_health.com", "Hadar");
         session.save(employee7);
         session.flush();
         card_num = rand.nextInt(100000);
-
-        Manager employee8 = new Manager("VSilverman","VS8510$","Valeria","Silverman","clinic manager",card_num,"vsilverman@good_health.com", "Carmel",null);
+        Manager employee8 = new Manager("VSilverman","VS1234","Valeria","Silverman","clinic manager",card_num,"vsilverman@good_health.com", "Carmel",null);
         session.save(employee8);
         session.flush();
         card_num = rand.nextInt(100000);
-
-        Employee employee9 = new Employee("DShitrit","DS6743*","Dor","Shitrit","family_doctor",card_num,"dshitrit@good_health.com", "Neve shaanan");
+        Doctor employee9 = new Doctor("DShitrit","DS1234","Dor","Shitrit","family_doctor",card_num,"dshitrit@good_health.com", "Neve shaanan");
         session.save(employee9);
         session.flush();
         card_num = rand.nextInt(100000);
-
-        Manager employee10 = new Manager("CSella","CS7336%","Chen","Sella","clinic manager",card_num,"csella@good_health.com", "Tirat Carmel",null);
+        Manager employee10 = new Manager("CSella","CS1234","Chen","Sella","clinic manager",card_num,"csella@good_health.com", "Tirat Carmel",null);
         session.save(employee10);
         session.flush();
         card_num = rand.nextInt(100000);
-
-        Employee employee11 = new Employee("NWeber","NW6108!","Naama","Weber","family_doctor",card_num,"nweber@good_health.com", "Hadar");
+        Doctor employee11 = new Doctor("NWeber","NW1234","Naama","Weber","family_doctor",card_num,"nweber@good_health.com", "Hadar");
         session.save(employee11);
         session.flush();
         card_num = rand.nextInt(100000);
-        Employee employee12 = new Employee("ABachar","AB6109&","Amit","Bachar","family_doctor",card_num,"abachar@good_health.com", "Denia");
+        Doctor employee12 = new Doctor("ABachar","AB1234","Amit","Bachar","family_doctor",card_num,"abachar@good_health.com", "Denia");
         session.save(employee12);
         session.flush();
         card_num = rand.nextInt(100000);
-        Employee employee13 = new Employee("MPorat","MP%6199","Moran","Porat","family_doctor",card_num,"mporat@good_health.com", "Nesher");
+        Doctor employee13 = new Doctor("MPorat","MP1234","Moran","Porat","family_doctor",card_num,"mporat@good_health.com", "Nesher");
         session.save(employee13);
         session.flush();
         card_num = rand.nextInt(100000);
-        Employee employee14 = new Employee("MZeev","MZ!2797","Maayan","Zeev","family_doctor",card_num,"mzeev@good_health.com", "Tirat Carmel");
+        Doctor employee14 = new Doctor("MZeev","MZ1234","Maayan","Zeev","family_doctor",card_num,"mzeev@good_health.com", "Tirat Carmel");
         session.save(employee14);
         session.flush();
         card_num = rand.nextInt(100000);
-        Employee employee15 = new Employee("RShtein","RS5971#","Rotem","Shtein","family_doctor",card_num,"rshtein@good_health.com", "Carmel");
+        Doctor employee15 = new Doctor("RShtein","RS1234","Rotem","Shtein","family_doctor",card_num,"rshtein@good_health.com", "Carmel");
         session.save(employee15);
         session.flush();
         card_num = rand.nextInt(100000);
-        Employee employee16 = new Employee("RBarlev","RB5327^","Ravit","Barlev","pediatrician",card_num,"rbarlev@good_health.com", "Denia");
+        Doctor employee16 = new Doctor("RBarlev","RB1234","Ravit","Barlev","pediatrician",card_num,"rbarlev@good_health.com", "Denia");
         session.save(employee16);
         session.flush();
         card_num = rand.nextInt(100000);
-        Employee employee17 = new Employee("GNadler","GN4398@","Gil","Nadler","pediatrician",card_num,"gnadler@good_health.com", "Neve shaanan");
+        Doctor employee17 = new Doctor("GNadler","GN1234","Gil","Nadler","pediatrician",card_num,"gnadler@good_health.com", "Neve shaanan");
         session.save(employee17);
         session.flush();
         card_num = rand.nextInt(100000);
-        Employee employee18 = new Employee("TRobin","TR78290=","Tom","Robin","pediatrician",card_num,"trobin@good_health.com", "Nesher");
+        Doctor employee18 = new Doctor("TRobin","TR1234","Tom","Robin","pediatrician",card_num,"trobin@good_health.com", "Nesher");
         session.save(employee18);
         session.flush();
         card_num = rand.nextInt(100000);
-        Employee employee19 = new Employee("EPeretz","EP7819&","Elinor","Peretz","pediatrician",card_num,"eperetz@good_health.com", "Carmel");
+        Doctor employee19 = new Doctor("EPeretz","EP1234","Elinor","Peretz","pediatrician",card_num,"eperetz@good_health.com", "Carmel");
         session.save(employee19);
         session.flush();
         card_num = rand.nextInt(100000);
-        Employee employee20 = new Employee("YHadad","YH7629%","Yuval","Hadad","pediatrician",card_num,"yhadad@good_health.com", "Tirat Carmel");
+        Doctor employee20 = new Doctor("YHadad","YH1234","Yuval","Hadad","pediatrician",card_num,"yhadad@good_health.com", "Tirat Carmel");
         session.save(employee20);
         session.flush();
         card_num = rand.nextInt(100000);
-
-        Nurse employee21 = new Nurse( "SLev","SL5491&","Shahar","Lev",card_num,"slev@good_health.com", "Denia",null);
+        Nurse employee21 = new Nurse( "SLev","SL1234","Shahar","Lev",card_num,"slev@good_health.com", "Denia",null);
         session.save(employee21);
         session.flush();
         card_num = rand.nextInt(100000);
-         Nurse employee22 = new Nurse("GShwartz","GS6892@","Gal","Shwartz",card_num,"gshwartz@good_health.com", "Neve shaanan",null);
+         Nurse employee22 = new Nurse("GShwartz","GS1234","Gal","Shwartz",card_num,"gshwartz@good_health.com", "Neve shaanan",null);
         session.save(employee22);
         session.flush();
         card_num = rand.nextInt(100000);
-        Nurse employee23 = new Nurse("SCohen","SC8298*","Sarit","Cohen",card_num,"scohen@good_health.com", "Hadar",null);
+        Nurse employee23 = new Nurse("SCohen","SC1234","Sarit","Cohen",card_num,"scohen@good_health.com", "Hadar",null);
         session.save(employee23);
         session.flush();
         card_num = rand.nextInt(100000);
-        Nurse employee24 = new Nurse( "IGad","IG7992#","Ilanit","Gad",card_num,"igad@good_health.com", "Nesher",null);
+        Nurse employee24 = new Nurse( "IGad","IG1234","Ilanit","Gad",card_num,"igad@good_health.com", "Nesher",null);
         session.save(employee24);
         session.flush();
         card_num = rand.nextInt(100000);
-        Nurse employee25 = new Nurse( "ALevi","AL4298$","Adi","Levi",card_num,"alevi@good_health.com", "Carmel",null);
+        Nurse employee25 = new Nurse( "ALevi","AL1234","Adi","Levi",card_num,"alevi@good_health.com", "Carmel",null);
         session.save(employee25);
         session.flush();
         card_num = rand.nextInt(100000);
-        Nurse employee26 = new Nurse( "TGrosman","TG9596!","Tamar","Grosman",card_num,"tgrosman@good_health.com", "Tirat Carmel",null);
+        Nurse employee26 = new Nurse( "TGrosman","TG1234","Tamar","Grosman",card_num,"tgrosman@good_health.com", "Tirat Carmel",null);
         session.save(employee26);
         session.flush();
         card_num = rand.nextInt(100000);
-
-        Employee employee27 = new Employee( "AIsraeli","AI8995%","Avraham","Israeli","ENT doctor",card_num,"aisraeli@good_health.com", "Carmel");
+        SpecialDoctor employee27 = new SpecialDoctor( "AIsraeli","AI1234","Avraham","Israeli","ENT doctor",card_num,"aisraeli@good_health.com", "Carmel",null);
         session.save(employee27);
         session.flush();
         card_num = rand.nextInt(100000);
-        Employee employee28 = new Employee("MSason","MS9087&","Miriam","Sason","gynecologist",card_num,"msason@good_health.com", "Carmel");
+        SpecialDoctor employee28 = new SpecialDoctor("MSason","MS1234","Miriam","Sason","gynecologist",card_num,"msason@good_health.com", "Carmel",null);
         session.save(employee28);
         session.flush();
         card_num = rand.nextInt(100000);
-        Employee employee29 = new Employee("SAviram","SA8769#","Shlomi","Aviram","dermatologist",card_num,"saviram@good_health.com", "Carmel");
+        SpecialDoctor employee29 = new SpecialDoctor("SAviram","SA1234","Shlomi","Aviram","dermatologist",card_num,"saviram@good_health.com", "Carmel",null);
         session.save(employee29);
         session.flush();
         card_num = rand.nextInt(100000);
-        Employee employee30 = new Employee("AMelamed","AM6589$","Alon","Melamed","ophthalmologist",card_num,"amelamed@good_health.com", "Carmel");
+        SpecialDoctor employee30 = new SpecialDoctor("AMelamed","AM1234","Alon","Melamed","ophthalmologist",card_num,"amelamed@good_health.com", "Carmel",null);
         session.save(employee30);
         session.flush();
         card_num = rand.nextInt(100000);
-        Employee employee31 = new Employee("EHadad","EH7891@","Erez","Hadad","ENT doctor",card_num,"ehadad@good_health.com", "Carmel");
+        SpecialDoctor employee31 = new SpecialDoctor("EHadad","EH1234","Erez","Hadad","ENT doctor",card_num,"ehadad@good_health.com", "Carmel",null);
         session.save(employee31);
         session.flush();
-
         card_num = rand.nextInt(100000);
-        LabWorker employee32 = new LabWorker("ARodensky","AR9123#","Anna","Rodensky",card_num,"arodensky@good_health.com", "Denia",null);
+        LabWorker employee32 = new LabWorker("ARodensky","AR1234","Anna","Rodensky",card_num,"arodensky@good_health.com", "Denia",null);
         session.save(employee32);
         session.flush();
         card_num = rand.nextInt(100000);
-        LabWorker employee33 = new LabWorker("AIsraeli","AI6712%","Alina","Israeli",card_num,"aisraeli@good_health.com", "Neve Shaanan",null);
+        LabWorker employee33 = new LabWorker("AIsraeli","AI1234","Alina","Israeli",card_num,"aisraeli@good_health.com", "Neve Shaanan",null);
         session.save(employee33);
         session.flush();
         card_num = rand.nextInt(100000);
-        LabWorker employee34 = new LabWorker("OAshkenazi","OA7815&", "Oren","Ashkenazi",card_num,"oashkenazi@good_health.com", "Hadar",null);
+        LabWorker employee34 = new LabWorker("OAshkenazi","OA1234", "Oren","Ashkenazi",card_num,"oashkenazi@good_health.com", "Hadar",null);
         session.save(employee34);
         session.flush();
         card_num = rand.nextInt(100000);
-        LabWorker employee35 = new LabWorker("ABar","AB8127%","Avital","Bar",card_num,"abar@good_health.com", "Nesher",null);
+        LabWorker employee35 = new LabWorker("ABar","AB1234","Avital","Bar",card_num,"abar@good_health.com", "Nesher",null);
         session.save(employee35);
         session.flush();
         card_num = rand.nextInt(100000);
-        LabWorker employee36 = new LabWorker("YShachar","YS9034&","Yael","Shachar",card_num,"yshachar@good_health.com", "Carmel",null);
+        LabWorker employee36 = new LabWorker("YShachar","YS1234","Yael","Shachar",card_num,"yshachar@good_health.com", "Carmel",null);
         session.save(employee36);
         session.flush();
         card_num = rand.nextInt(100000);
-        LabWorker employee37 = new LabWorker("TGil","TG9236#","Tehila","Gil",card_num,"tgil@good_health.com", "Tirat Carmel",null);
+        LabWorker employee37 = new LabWorker("TGil","TG1234","Tehila","Gil",card_num,"tgil@good_health.com", "Tirat Carmel",null);
         session.save(employee37);
         session.flush();
         card_num = rand.nextInt(100000);
-        Employee employee38 = new Employee("NDadon","ND7137%","Nathan","Dadon","neurologist",card_num,"ndadon@good_health.com", "Carmel");
+        SpecialDoctor employee38 = new SpecialDoctor("NDadon","ND1234","Nathan","Dadon","neurologist",card_num,"ndadon@good_health.com", "Carmel",null);
         session.save(employee38);
         session.flush();
         card_num = rand.nextInt(100000);
-        Employee employee39 = new Employee("OTzarfati","OT6328$","Ofer","Tzarfati","gynecologist",card_num,"otzarfati@good_health.com", "Carmel");
+        SpecialDoctor employee39 = new SpecialDoctor("OTzarfati", "OT1234", "Ofer", "Tzarfati", "gynecologist", card_num, "otzarfati@good_health.com", "Carmel",null);
         session.save(employee39);
         session.flush();
         card_num = rand.nextInt(100000);
-        Nurse employee40 = new Nurse("DOren","DO4058@","Dana","Oren",card_num,"doren@good_health.com", "Carmel",null);
+        Nurse employee40 = new Nurse("DOren","DO1234","Dana","Oren",card_num,"doren@good_health.com", "Carmel",null);
         session.save(employee40);
         session.flush();
     }
@@ -216,7 +227,7 @@ public class App
         query.from(Manager.class);
         List<Manager> managers = session.createQuery(query).getResultList();
         for (Manager manager : managers) {
-            if (manager.getId() == Id) {
+            if (manager.getUserId() == Id) {
                 return manager;
             }
         }
@@ -243,74 +254,161 @@ public class App
         session.save(clinic6);
         session.flush();
     }
-//    private static void initNurseTable() throws Exception {
-//        Random rand = new Random();
-//        int card_num = rand.nextInt(100000);
-//        card_num = rand.nextInt(100000);
-//        Nurse nurse1 = new Nurse( "SLev","SL5491&","Shahar","Lev",card_num,"slev@good_health.com", "Denia",null);
-//        session.save(nurse1);
-//        session.flush();
-//        card_num = rand.nextInt(100000);
-//        Nurse nurse2 = new Nurse("GShwartz","GS6892@","Gal","Shwartz",card_num,"gshwartz@good_health.com", "Neve shaanan",null);
-//        session.save(nurse2);
-//        session.flush();
-//        card_num = rand.nextInt(100000);
-//        Nurse nurse3 = new Nurse("SCohen","SC8298*","Sarit","Cohen",card_num,"scohen@good_health.com", "Hadar",null);
-//        session.save(nurse3);
-//        session.flush();
-//        card_num = rand.nextInt(100000);
-//        Nurse nurse4 = new Nurse( "IGad","IG7992#","Ilanit","Gad",card_num,"igad@good_health.com", "Nesher",null);
-//        session.save(nurse4);
-//        session.flush();
-//        card_num = rand.nextInt(100000);
-//        Nurse nurse5 = new Nurse( "ALevi","AL4298$","Adi","Levi",card_num,"alevi@good_health.com", "Carmel",null);
-//        session.save(nurse5);
-//        session.flush();
-//        card_num = rand.nextInt(100000);
-//        Nurse nurse6 = new Nurse( "TGrosman","TG9596!","Tamar","Grosman",card_num,"tgrosman@good_health.com", "Tirat Carmel",null);
-//        session.save(nurse6);
-//        session.flush();
-//        card_num = rand.nextInt(100000);
-//        Nurse nurse7 = new Nurse( "TCohen","TC8751*","Tal","Cohen",card_num,"tcohen@good_health.com", "Hadar",null);
-//        session.save(nurse7);
-//        session.flush();
-//        card_num = rand.nextInt(100000);
-//        Nurse nurse8 = new Nurse("DOren","DO4058@","Dana","Oren",card_num,"doren@good_health.com", "Carmel",null);
-//        session.save(nurse8);
-//        session.flush();
-//        card_num = rand.nextInt(100000);
-//        Nurse nurse9 = new Nurse("DLevi","DL9061!","David","Levi",card_num,"dlevi@good_health.com", "Nesher",null);
-//        session.save(nurse9);
-//        session.flush();
-//    }
-//    private static void initLabWorkerTable() throws Exception {
-//        Random rand = new Random();
-//        int card_num = rand.nextInt(100000);
-//        card_num = rand.nextInt(100000);
-//        LabWorker labWorker1 = new LabWorker("TGil","TG9236#","Tehila","Gil",card_num,"tgil@good_health.com", "Tirat Carmel",null);
-//        session.save(labWorker1);
-//        session.flush();
-//        card_num = rand.nextInt(100000);
-//        LabWorker labWorker2 = new LabWorker("ARodensky","AR9123#","Anna","Rodensky",card_num,"arodensky@good_health.com", "Denia",null);
-//        session.save(labWorker2);
-//        session.flush();
-//        card_num = rand.nextInt(100000);
-//        LabWorker labWorker3 = new LabWorker("AIsraeli","AI6712%","Alina","Israeli",card_num,"aisraeli@good_health.com", "Neve Shaanan",null);
-//        session.save(labWorker3);
-//        session.flush();
-//        LabWorker labWorker4 = new LabWorker("JGraham","JG3518@","John","Graham",card_num,"jgraham@good_health.com", "Carmel",null);
-//        session.save(labWorker4);
-//        session.flush();
-//        LabWorker labWorker5 = new LabWorker("ASmith","AS0817$","Allen","Smith",card_num,"asmith@good_health.com", "Hadar",null);
-//        session.save(labWorker5);
-//        session.flush();
-//        LabWorker labWorker6 = new LabWorker("KMiller","KM6113#","Karen","Miller",card_num,"kmiller@good_health.com", "Nesher",null);
-//        session.save(labWorker6);
-//        session.flush();
-//    }
+
+    public static Doctor getDoctor(int Id) {
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Doctor> query = builder.createQuery(Doctor.class);
+        query.from(Doctor.class);
+        List<Doctor> doctors = session.createQuery(query).getResultList();
+        for (Doctor doctor : doctors) {
+            if (doctor.getUserId() == Id) {
+                return doctor;
+            }
+        }
+        return null;
+    }
+
+    public static Clinic getClinic(String name) {
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Clinic> query = builder.createQuery(Clinic.class);
+        query.from(Clinic.class);
+        List<Clinic> clinics = session.createQuery(query).getResultList();
+        for (Clinic clinic : clinics) {
+            if (clinic.getName().equals(name)) {
+                return clinic;
+            }
+        }
+        return null;
+    }
+
+    private static void initPatientsTable() throws NoSuchAlgorithmException {
+        // create instance of Random class
+        Random rand = new Random();
+        int card_num = rand.nextInt(100000);
+        Patient pat1 = new Patient("DHolland", "DH1234","Dana","Holland",getDoctor(9)
+                , LocalDate.parse("1990-12-10"),card_num,"DHolland@life.com",getClinic("Neve shaanan"), null);
+        session.save(pat1);
+        session.flush();
+        card_num = rand.nextInt(100000);
+        Patient pat2 = new Patient("YChen", "YC1234","Yonathan","Chen",getDoctor(19)
+                , LocalDate.parse("2012-09-18"),card_num,"YChen@life.com",getClinic("Carmel"), null);
+        session.save(pat2);
+        session.flush();
+        card_num = rand.nextInt(100000);
+        Patient pat3 = new Patient("CLevi", "CL1234","Chen","Levi",getDoctor(7)
+                , LocalDate.parse("2020-06-18"),card_num,"CLevi@life.com",getClinic("Hadar"), null);
+        session.save(pat3);
+        session.flush();
+        card_num = rand.nextInt(100000);
+        Patient pat4 = new Patient("RGil", "RG1234","Ronna","Gil",getDoctor(9)
+                , LocalDate.parse("1945-06-21"),card_num,"RGil@life.com",getClinic("Neve shaanan"), null);
+        session.save(pat4);
+        session.flush();
+        card_num = rand.nextInt(100000);
+        Patient pat5 = new Patient("TShitrit", "TS1234","Tali","Shitrit",getDoctor(13)
+                , LocalDate.parse("1996-05-14"),card_num,"TShitrit@life.com",getClinic("Nesher"), null);
+        session.save(pat5);
+        session.flush();
+        card_num = rand.nextInt(100000);
+        Patient pat6 = new Patient("NSabag", "NS1234","Noga","Sabag",getDoctor(14)
+                , LocalDate.parse("2001-07-21"),card_num,"NSabag@life.com",getClinic("Tirat Carmel"), null);
+        session.save(pat6);
+        session.flush();
+        card_num = rand.nextInt(100000);
+        Patient pat7 = new Patient("DCohen", "DC1234","Dor","Cohen",getDoctor(15)
+                , LocalDate.parse("1984-03-08"),card_num,"DCohen@life.com",getClinic("Carmel"), null);
+        session.save(pat7);
+        session.flush();
+        card_num = rand.nextInt(100000);
+        Patient pat8 = new Patient("SGold", "SG1234","Shon","Gold",getDoctor(16)
+                , LocalDate.parse("2014-09-17"),card_num,"SGold@life.com",getClinic("Denia"), null);
+        session.save(pat8);
+        session.flush();
+        card_num = rand.nextInt(100000);
+        Patient pat9 = new Patient("IMoskovitz", "IM1234","Israel","Moskovitz",getDoctor(12)
+                , LocalDate.parse("1974-05-19"),card_num,"IMoskovitz@life.com",getClinic("Denia"), null);
+        session.save(pat9);
+        session.flush();
+        card_num = rand.nextInt(100000);
+        Patient pat10 = new Patient("MHadad", "MH1234","Moshe","Hadad",getDoctor(9)
+                , LocalDate.parse("1964-03-21"),card_num,"MHadad@life.com",getClinic("Neve shaanan"), null);
+        session.save(pat10);
+        session.flush();
+    }
+
+    private static Patient getPatient(String username){
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Patient> query = builder.createQuery(Patient.class);
+        query.from(Patient.class);
+        List<Patient> patientList = session.createQuery(query).getResultList();
+        for (Patient patient : patientList) {
+            if (patient.getUsername().equals(username)) {
+                return patient;
+            }
+        }
+        return null;
+    }
+
+    private static SpecialDoctor getSpecialDoctor(int Id){
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<SpecialDoctor> query = builder.createQuery(SpecialDoctor.class);
+        query.from(SpecialDoctor.class);
+        List<SpecialDoctor> doctorsList = session.createQuery(query).getResultList();
+        for (SpecialDoctor doctor : doctorsList) {
+            if (doctor.getUserId() == Id) {
+                return doctor;
+            }
+        }
+        return null;
+    }
 
     private static void initAppointmentsTable() throws Exception {
-        //Need Patient entity to fill
+        Patient currPat = getPatient("DHolland");
+        SpecialDoctor doc;
+        doctorApp app1 = new doctorApp(LocalTime.parse("10:00"), LocalDate.parse("2022-01-18"), currPat.getClinic(), currPat, currPat.getDoctor());
+        session.save(app1);
+        session.flush();
+        currPat = getPatient("SGold");
+        doctorApp app2 = new doctorApp(LocalTime.parse("09:00"), LocalDate.parse("2022-01-19"), currPat.getClinic(), currPat, currPat.getDoctor());
+        session.save(app2);
+        session.flush();
+        currPat = getPatient("NSabag");
+        doctorApp app3 = new doctorApp(LocalTime.parse("12:00"), LocalDate.parse("2022-01-20"), currPat.getClinic(), currPat, currPat.getDoctor());
+        session.save(app3);
+        session.flush();
+        currPat = getPatient("TShitrit");
+        doctorApp app4 = new doctorApp(LocalTime.parse("14:00"), LocalDate.parse("2022-01-23"), currPat.getClinic(), currPat, currPat.getDoctor());
+        session.save(app4);
+        session.flush();
+        currPat = getPatient("YChen");
+        doc = getSpecialDoctor(38);
+        specialDoctorApp app5 = new specialDoctorApp(LocalTime.parse("08:30"), LocalDate.parse("2022-01-23"), getClinic("Carmel"),currPat,doc);
+        session.save(app5);
+        session.flush();
+        currPat = getPatient("CLevi");
+        specialDoctorApp app6 = new specialDoctorApp(LocalTime.parse("12:30"), LocalDate.parse("2022-01-20"), getClinic("Carmel"),currPat, doc);
+        session.save(app6);
+        session.flush();
+        currPat = getPatient("RGil");
+        doc = getSpecialDoctor(30);
+        specialDoctorApp app7 = new specialDoctorApp(LocalTime.parse("15:30"), LocalDate.parse("2022-01-19"), getClinic("Carmel"),currPat, doc);
+        session.save(app7);
+        session.flush();
+        currPat = getPatient("TShitrit");
+        specialDoctorApp app8 = new specialDoctorApp(LocalTime.parse("15:00"), LocalDate.parse("2022-01-19"), getClinic("Carmel"),currPat, doc);
+        session.save(app8);
+        session.flush();
+        currPat = getPatient("RGil");
+        doc = getSpecialDoctor(27);
+        specialDoctorApp app9 = new specialDoctorApp(LocalTime.parse("15:30"), LocalDate.parse("2022-01-18"), getClinic("Carmel"),currPat, doc);
+        session.save(app9);
+        session.flush();
+        currPat = getPatient("DCohen");
+        doc = getSpecialDoctor(27);
+        specialDoctorApp app10 = new specialDoctorApp(LocalTime.parse("11:30"), LocalDate.parse("2022-01-20"), getClinic("Carmel"),currPat, doc);
+        session.save(app10);
+        session.flush();
+
     }
 
 
@@ -321,8 +419,8 @@ public class App
             session.beginTransaction();
             initEmployeesTable();
             initClinicsTable();
-//            initNurseTable();
-//            initLabWorkerTable();
+            initPatientsTable();
+            initAppointmentsTable();
             session.getTransaction().commit(); // Save everything.
         } catch (Exception exception) {
             if (session != null) {

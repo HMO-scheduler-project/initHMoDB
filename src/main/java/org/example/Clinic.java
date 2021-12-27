@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.Reports.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
@@ -13,25 +14,25 @@ public class Clinic implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Num")
     public int Counter;
-    @Column(name = "Name")
+    @Column(name="Name")
     protected String name;
-    @Column(name = "City")
+    @Column(name="City")
     protected String city;
-    @Column(name = "OpenningHour")
+    @Column(name="OpenningHour")
     protected LocalTime openning_hour;
-    @Column(name = "ClosingHour")
-    protected LocalTime closing_hour;
+    @Column(name="ClosingHour")
+    protected LocalTime closing_hour ;
     protected String address;
     protected String phone_number;
     @ManyToOne(targetEntity = Manager.class)
     protected Manager manager;
     @OneToMany(targetEntity = Appointment.class)
-    protected List<Appointment> clinicAppointments=new ArrayList<>();
+    protected List<Appointment> clinicAppointments;
+    @OneToOne(targetEntity = WeeklyReport.class)
+    protected WeeklyReport WeeklyReportOfClinic;
 
-    public Clinic() {
-    }
-
-    public Clinic(String name, String city, LocalTime start, LocalTime end, Manager manager, String address, String phone_number) throws NoSuchAlgorithmException {
+    public Clinic() { }
+    public Clinic(String name, String city, LocalTime start,LocalTime end,Manager manager,String address,String phone_number) throws NoSuchAlgorithmException {
         this.name = name;
         this.city = city;
         this.openning_hour = start;
@@ -89,11 +90,11 @@ public class Clinic implements Serializable {
         this.address = address;
     }
 
-    public String getPhone_number() {
+    public String getPhoneNum() {
         return phone_number;
     }
 
-    public void setPhone_number(String phone_number) {
+    public void setPhoneNum(String phone_number) {
         this.phone_number = phone_number;
     }
 
@@ -113,12 +114,28 @@ public class Clinic implements Serializable {
         this.closing_hour = closing_hour;
     }
 
+    public String getPhone_number() {
+        return phone_number;
+    }
+
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
+    }
+
     public List<Appointment> getClinicAppointments() {
         return clinicAppointments;
     }
 
     public void setClinicAppointments(List<Appointment> clinicAppointments) {
         this.clinicAppointments = clinicAppointments;
+    }
+
+    public WeeklyReport getWeeklyReportOfClinic() {
+        return WeeklyReportOfClinic;
+    }
+
+    public void setWeeklyReportOfClinic(WeeklyReport weeklyReportOfClinic) {
+        WeeklyReportOfClinic = weeklyReportOfClinic;
     }
 }
 
