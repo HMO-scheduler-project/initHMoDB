@@ -7,13 +7,13 @@ import javax.persistence.OneToOne;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Patient extends User implements Serializable {
     @OneToMany(targetEntity = Appointment.class)
-    protected List<Appointment> patientAppointments;
-    //family/children doctor assigned.
+    protected List<Appointment> patientAppointments = new ArrayList<Appointment>();
     @ManyToOne(targetEntity = Doctor.class)
     protected Doctor doctor;
     @ManyToOne(targetEntity = Appointment.class)
@@ -24,20 +24,18 @@ public class Patient extends User implements Serializable {
     @OneToOne(targetEntity = GreenPass.class)
     protected GreenPass green_pass;
     @OneToMany(targetEntity = SpecialDoctor.class)
-    protected List<SpecialDoctor> special_doctors;
+    protected List<SpecialDoctor> special_doctors = new ArrayList<SpecialDoctor>();
 
 
     public Patient(String username, String password,String first_name,String last_name,Doctor doctor
-            ,LocalDate date_of_birth,int card,String Email,Clinic clinic,
+            ,LocalDate date_of_birth,String card,String Email,String phone_num,Clinic clinic,
                    GreenPass green_pass) throws NoSuchAlgorithmException {
-        super(username, password,card,first_name,last_name);
-        this.patientAppointments = null;
+        super(username, password,card,first_name,last_name,Email,phone_num);
         this.doctor = doctor;
         this.next_appointment = null;
         this.clinic = clinic;
         this.date_of_birth = date_of_birth;
         this.green_pass=green_pass;
-        this.special_doctors= null;
 
     }
 
@@ -121,5 +119,27 @@ public class Patient extends User implements Serializable {
         this.date_of_birth = date_of_birth;
     }
 
+    public List<Appointment> getPatientAppointments() {
+        return patientAppointments;
+    }
 
+    public void setPatientAppointments(List<Appointment> patientAppointments) {
+        this.patientAppointments = patientAppointments;
+    }
+
+    public Appointment getNext_appointment() {
+        return next_appointment;
+    }
+
+    public void setNext_appointment(Appointment next_appointment) {
+        this.next_appointment = next_appointment;
+    }
+
+    public List<SpecialDoctor> getSpecial_doctors() {
+        return special_doctors;
+    }
+
+    public void setSpecial_doctors(List<SpecialDoctor> special_doctors) {
+        this.special_doctors = special_doctors;
+    }
 }

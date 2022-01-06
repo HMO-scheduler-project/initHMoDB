@@ -17,15 +17,18 @@ public class Appointment implements Serializable {
     protected Clinic clinic;
     @ManyToOne(targetEntity = Patient.class)
     Patient patient;
+    @ManyToOne (targetEntity = Employee.class)
+    Employee employee;
 
     public Appointment() {
     }
 
-    public Appointment(LocalTime time, LocalDate date, Clinic clinic, Patient patient) {
+    public Appointment(LocalTime time, LocalDate date, Clinic clinic, Patient patient,Employee employee) {
         this.time = time;
         this.date = date;
         this.clinic = clinic;
         this.patient = patient;
+        this.employee = employee;
     }
 
 
@@ -71,5 +74,13 @@ public class Appointment implements Serializable {
 
     public void setActual_time(LocalTime actual_time) {
         this.actual_time = actual_time;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 }

@@ -3,6 +3,7 @@ package org.example;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalTime;
 import java.util.List;
 
 @Entity
@@ -16,9 +17,9 @@ public class LabWorker extends Employee{
         labApps=null;
     }
 
-    public LabWorker(String username, String password, String first_name, String last_name, int card, String Email,
-                     String main_clinic, List<LabApp> labApps) throws NoSuchAlgorithmException {
-        super(username, password, first_name, last_name, "lab worker", card, Email, main_clinic);
+    public LabWorker(String username, String password, String first_name, String last_name, String card, String Email,
+                     String phone_num,String main_clinic, List<LabApp> labApps, int room_num, LocalTime start,LocalTime end) throws NoSuchAlgorithmException {
+        super(username, password, first_name, last_name, "lab worker", card, Email, phone_num,main_clinic,room_num,start,end);
         this.labApps = labApps;
     }
 
@@ -38,8 +39,4 @@ public class LabWorker extends Employee{
         this.labApps.remove(app_to_delete);
     }
 
-    @Override
-    public String toString() {
-        return "Lab Worker[ "+super.toString() + " ]";
-    }
 }

@@ -27,7 +27,7 @@ public class Clinic implements Serializable {
     @ManyToOne(targetEntity = Manager.class)
     protected Manager manager;
     @OneToMany(targetEntity = Appointment.class)
-    protected List<Appointment> clinicAppointments;
+    protected List<Appointment> clinicAppointments = new ArrayList<Appointment>();
     @OneToOne(targetEntity = WeeklyReport.class)
     protected WeeklyReport WeeklyReportOfClinic;
 
