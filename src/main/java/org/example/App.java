@@ -524,6 +524,34 @@ public class App
 //        sdoc.addAppointment(app10);
         session.save(sdoc);
 
+        currPat = getPatient("DHolland");
+        sdoc = getSpecialDoctor(27);
+        specialDoctorApp app11 = new specialDoctorApp(LocalTime.parse("19:50"), LocalDate.parse("2022-01-06"), getClinic("Carmel"),currPat, sdoc);
+        session.save(app11);
+//        sdoc.addAppointment(app11);
+        session.save(sdoc);
+
+        currPat = getPatient("DHolland");
+        sdoc = getSpecialDoctor(38);
+        specialDoctorApp app12 = new specialDoctorApp(LocalTime.parse("11:00"), LocalDate.parse("2022-01-07"), getClinic("Carmel"),currPat, sdoc);
+        session.save(app12);
+//        sdoc.addAppointment(app12);
+        session.save(sdoc);
+
+        currPat = getPatient("TShitrit");
+        sdoc = getSpecialDoctor(38);
+        specialDoctorApp app13 = new specialDoctorApp(LocalTime.parse("12:00"), LocalDate.parse("2022-01-07"), getClinic("Carmel"),currPat, sdoc);
+        session.save(app13);
+//        sdoc.addAppointment(app13);
+        session.save(sdoc);
+
+        currPat = getPatient("IMoskovitz");
+        sdoc = getSpecialDoctor(38);
+        specialDoctorApp app14 = new specialDoctorApp(LocalTime.parse("11:30"), LocalDate.parse("2022-01-07"), getClinic("Carmel"),currPat, sdoc);
+        session.save(app14);
+//        sdoc.addAppointment(app14);
+        session.save(sdoc);
+
 
 
     }

@@ -12,6 +12,7 @@ public class Appointment implements Serializable {
     protected int appointment_id;
     protected LocalTime time;
     protected LocalTime actual_time;
+    protected boolean arrived;
     protected LocalDate date;
     @ManyToOne(targetEntity = Clinic.class)
     protected Clinic clinic;
@@ -29,6 +30,7 @@ public class Appointment implements Serializable {
         this.clinic = clinic;
         this.patient = patient;
         this.employee = employee;
+        this.arrived = false;
     }
 
 
@@ -82,5 +84,13 @@ public class Appointment implements Serializable {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    public boolean patientArrived() {
+        return arrived;
+    }
+
+    public void setArrived(boolean arrived) {
+        this.arrived = arrived;
     }
 }
