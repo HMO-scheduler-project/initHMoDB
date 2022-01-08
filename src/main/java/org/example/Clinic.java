@@ -19,7 +19,7 @@ public class Clinic implements Serializable {
     @Column(name="City")
     protected String city;
     @Column(name="OpenningHour")
-    protected LocalTime openning_hour;
+    protected LocalTime opening_hour;
     @Column(name="ClosingHour")
     protected LocalTime closing_hour ;
     protected String address;
@@ -27,19 +27,30 @@ public class Clinic implements Serializable {
     @ManyToOne(targetEntity = Manager.class)
     protected Manager manager;
     @OneToMany(targetEntity = Appointment.class)
-    protected List<Appointment> clinicAppointments = new ArrayList<Appointment>();
+    protected List<Appointment> clinicAppointments;
     @OneToOne(targetEntity = WeeklyReport.class)
     protected WeeklyReport WeeklyReportOfClinic;
+    protected boolean labServices;
+    protected boolean covidTestService;
+    protected boolean covidVaccine;
+    protected boolean influenzaVaccine;
+    protected boolean specialists;
+
 
     public Clinic() { }
     public Clinic(String name, String city, LocalTime start,LocalTime end,Manager manager,String address,String phone_number) throws NoSuchAlgorithmException {
         this.name = name;
         this.city = city;
-        this.openning_hour = start;
+        this.opening_hour = start;
         this.closing_hour = end;
         this.manager = manager;
         this.address = address;
         this.phone_number = phone_number;
+        this.labServices = false;
+        this.covidTestService = false;
+        this.covidVaccine = false;
+        this.influenzaVaccine = false;
+        this.specialists = false;
     }
 
     public String getName() {
@@ -58,12 +69,12 @@ public class Clinic implements Serializable {
         this.city = city;
     }
 
-    public LocalTime getOpenningHour() {
-        return openning_hour;
+    public LocalTime getOpeningHour() {
+        return opening_hour;
     }
 
-    public void setOpenningHour(LocalTime start) {
-        this.openning_hour = start;
+    public void setOpeningHour(LocalTime start) {
+        this.opening_hour = start;
     }
 
     public LocalTime getClosingHour() {
@@ -98,14 +109,6 @@ public class Clinic implements Serializable {
         this.phone_number = phone_number;
     }
 
-    public LocalTime getOpenning_hour() {
-        return openning_hour;
-    }
-
-    public void setOpenning_hour(LocalTime openning_hour) {
-        this.openning_hour = openning_hour;
-    }
-
     public LocalTime getClosing_hour() {
         return closing_hour;
     }
@@ -136,6 +139,46 @@ public class Clinic implements Serializable {
 
     public void setWeeklyReportOfClinic(WeeklyReport weeklyReportOfClinic) {
         WeeklyReportOfClinic = weeklyReportOfClinic;
+    }
+
+    public boolean hasLabServices() {
+        return labServices;
+    }
+
+    public void setLabServices(boolean labServices) {
+        this.labServices = labServices;
+    }
+
+    public boolean hasCovidTestService() {
+        return covidTestService;
+    }
+
+    public void setCovidTestService(boolean covidTestService) {
+        this.covidTestService = covidTestService;
+    }
+
+    public boolean hasCovidVaccine() {
+        return covidVaccine;
+    }
+
+    public void setCovidVaccine(boolean covidVaccine) {
+        this.covidVaccine = covidVaccine;
+    }
+
+    public boolean hasInfluenzaVaccine() {
+        return influenzaVaccine;
+    }
+
+    public void setInfluenzaVaccine(boolean influenzaVaccine) {
+        this.influenzaVaccine = influenzaVaccine;
+    }
+
+    public boolean hasSpecialists() {
+        return specialists;
+    }
+
+    public void setSpecialists(boolean specialists) {
+        this.specialists = specialists;
     }
 }
 

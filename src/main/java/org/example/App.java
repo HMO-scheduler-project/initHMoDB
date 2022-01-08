@@ -50,6 +50,7 @@ public class App
         configuration.addAnnotatedClass(SpecialDoctor.class);
         configuration.addAnnotatedClass(specialDoctorApp.class);
         configuration.addAnnotatedClass(User.class);
+        configuration.addAnnotatedClass(clinicSpecialService.class);
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties())
                 .build();
         return configuration.buildSessionFactory(serviceRegistry);
@@ -311,6 +312,42 @@ public class App
         session.flush();
     }
 
+    public static void initServicesTable(){
+        clinicSpecialService service1 = new clinicSpecialService("covid test","Hadar", LocalTime.parse("07:00:00"), LocalTime.parse("17:00:00"));
+        session.save(service1);
+        session.flush();
+        clinicSpecialService service2 = new clinicSpecialService("covid test","Neve shaanan", LocalTime.parse("08:00:00"), LocalTime.parse("20:00:00"));
+        session.save(service2);
+        session.flush();
+        clinicSpecialService service3 = new clinicSpecialService("covid test","Nesher", LocalTime.parse("08:00:00"), LocalTime.parse("18:00:00"));
+        session.save(service3);
+        session.flush();
+
+        clinicSpecialService service4 = new clinicSpecialService("covid vaccine","Hadar", LocalTime.parse("07:00:00"), LocalTime.parse("19:00:00"));
+        session.save(service4);
+        session.flush();
+        clinicSpecialService service5 = new clinicSpecialService("covid vaccine","Neve shaanan", LocalTime.parse("08:00:00"), LocalTime.parse("20:00:00"));
+        session.save(service5);
+        session.flush();
+        clinicSpecialService service6 = new clinicSpecialService("covid vaccine","Nesher", LocalTime.parse("08:00:00"), LocalTime.parse("18:00:00"));
+        session.save(service6);
+        session.flush();
+
+        clinicSpecialService service7 = new clinicSpecialService("influenza vaccine","Hadar", LocalTime.parse("07:00:00"), LocalTime.parse("19:00:00"));
+        session.save(service7);
+        session.flush();
+        clinicSpecialService service8 = new clinicSpecialService("influenza vaccine","Neve shaanan", LocalTime.parse("08:00:00"), LocalTime.parse("20:00:00"));
+        session.save(service8);
+        session.flush();
+        clinicSpecialService service9 = new clinicSpecialService("influenza vaccine","Nesher", LocalTime.parse("08:00:00"), LocalTime.parse("18:00:00"));
+        session.save(service9);
+        session.flush();
+        clinicSpecialService service10 = new clinicSpecialService("influenza vaccine","Tirat Carmel", LocalTime.parse("07:00:00"), LocalTime.parse("17:00:00"));
+        session.save(service10);
+        session.flush();
+
+    }
+
     public static Manager getManager(int Id) {
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Manager> query = builder.createQuery(Manager.class);
@@ -326,26 +363,48 @@ public class App
 
     private static void initClinicsTable() throws Exception {
         Clinic clinic1 = new Clinic("Denia","Haifa", LocalTime.parse("07:00:00"), LocalTime.parse("17:00:00"),null,"Libiria 2","04-8656321");
+        clinic1.setSpecialists(true);
+        clinic1.setLabServices(true);
         session.save(clinic1);
         session.flush();
 
         Clinic clinic2 = new Clinic("Neve shaanan","Haifa",LocalTime.parse("07:00:00"),LocalTime.parse("20:00:00"),null,"Hagalil 76","04-8656322");
+        clinic2.setSpecialists(true);
+        clinic2.setLabServices(true);
+        clinic2.setCovidTestService(true);
+        clinic2.setCovidVaccine(true);
+        clinic2.setInfluenzaVaccine(true);
         session.save(clinic2);
         session.flush();
 
         Clinic clinic3 = new Clinic("Hadar","Haifa",LocalTime.parse("07:00:00"),LocalTime.parse("19:00:00"),null,"Herzel 15","04-8656323");
+        clinic3.setSpecialists(true);
+        clinic3.setLabServices(true);
+        clinic3.setCovidTestService(true);
+        clinic3.setCovidVaccine(true);
+        clinic3.setInfluenzaVaccine(true);
         session.save(clinic3);
         session.flush();
 
         Clinic clinic4 = new Clinic("Nesher","Nesher",LocalTime.parse("07:00:00"),LocalTime.parse("19:00:00"),null,"Haalon 23","04-8656324");
+        clinic4.setSpecialists(true);
+        clinic4.setLabServices(true);
+        clinic4.setCovidTestService(true);
+        clinic4.setCovidVaccine(true);
+        clinic4.setInfluenzaVaccine(true);
         session.save(clinic4);
         session.flush();
 
         Clinic clinic5 = new Clinic("Carmel","Haifa",LocalTime.parse("07:00:00"),LocalTime.parse("20:00:00"),null,"Horev 6","04-8656325");
+        clinic5.setSpecialists(true);
+        clinic5.setLabServices(true);
         session.save(clinic5);
         session.flush();
 
         Clinic clinic6 = new Clinic("Tirat Carmel","Tirat Carmel",LocalTime.parse("07:00:00"),LocalTime.parse("17:00:00"),null,"Levi eshckol 16","04-8656326");
+        clinic6.setSpecialists(true);
+        clinic6.setLabServices(true);
+        clinic6.setInfluenzaVaccine(true);
         session.save(clinic6);
         session.flush();
     }
@@ -610,6 +669,7 @@ public class App
             initEmployeesTable();
             initPatientsTable();
             initAppointmentsTable();
+            initServicesTable();
             session.getTransaction().commit(); // Save everything.
         } catch (Exception exception) {
             if (session != null) {
