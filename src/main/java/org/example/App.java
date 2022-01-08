@@ -222,7 +222,7 @@ public class App
         session.flush();
 
         card_num = String.valueOf(Math.abs(rand.nextInt()));
-        SpecialDoctor employee27 = new SpecialDoctor( "AIsraeli","AI1234","Avraham","Israeli","ENT doctor",card_num,"aisraeli@good_health.com","050-8411235", "Carmel",null,7,LocalTime.parse("09:00:00"), LocalTime.parse("18:00:00"));
+        SpecialDoctor employee27 = new SpecialDoctor( "AIsraeli","AI1234","Avraham","Israeli","ENT doctor",card_num,"aisraeli@good_health.com","050-8411235", "Neve Shaanan, Hadar, Nesher",null,7,LocalTime.parse("09:00:00"), LocalTime.parse("19:00:00"));
 //        employee27.addClinic(getClinic("Carmel"));
         session.save(employee27);
         session.flush();
@@ -288,7 +288,7 @@ public class App
         session.flush();
 
         card_num = String.valueOf(Math.abs(rand.nextInt()));
-        SpecialDoctor employee39 = new SpecialDoctor("OTzarfati", "OT1234", "Ofer", "Tzarfati", "gynecologist", card_num, "otzarfati@good_health.com","053-6547712", "Carmel",null,8,LocalTime.parse("08:00:00"), LocalTime.parse("18:00:00"));
+        SpecialDoctor employee39 = new SpecialDoctor("OTzarfati", "OT1234", "Ofer", "Tzarfati", "gynecologist", card_num, "otzarfati@good_health.com","053-6547712", "Carmel, Tirat Carmel",null,8,LocalTime.parse("08:00:00"), LocalTime.parse("17:00:00"));
 //        employee39.addClinic(getClinic("Carmel"));
         session.save(employee39);
         session.flush();
@@ -305,7 +305,7 @@ public class App
         session.flush();
 
         card_num = String.valueOf(Math.abs(rand.nextInt()));
-        SpecialDoctor employee42 = new SpecialDoctor("YMoshe","YM1234","Yair","Moshe","neurologist",card_num,"ymoshe@good_health.com","052-6384751", "Neve Shaanan",null,7,LocalTime.parse("08:00:00"), LocalTime.parse("20:00:00"));
+        SpecialDoctor employee42 = new SpecialDoctor("YMoshe","YM1234","Yair","Moshe","neurologist",card_num,"ymoshe@good_health.com","052-6384751", "Neve Shaanan, Denia, Tirat Carmel",null,7,LocalTime.parse("08:00:00"), LocalTime.parse("16:00:00"));
 //        employee42.addClinic(getClinic("Carmel"));
         session.save(employee42);
         session.flush();
@@ -426,6 +426,10 @@ public class App
         Patient pat10 = new Patient("MHadad", "MH1234","Moshe","Hadad",getDoctor(9)
                 , LocalDate.parse("1964-03-21"),card_num,"MHadad@life.com","054-7832654",getClinic("Neve shaanan"), null);
         session.save(pat10);
+        card_num = String.valueOf(Math.abs(rand.nextInt()));
+        Patient pat11 = new Patient("MRosen", "MR1234","Maayan","Rosen",getDoctor(11)
+                , LocalDate.parse("1999-03-27"),card_num,"MRosen@life.com","054-5247863",getClinic("Hadar"), null);
+        session.save(pat11);
     }
 
     private static Patient getPatient(String username){
@@ -552,7 +556,47 @@ public class App
 //        sdoc.addAppointment(app14);
         session.save(sdoc);
 
+        currPat = getPatient("NSabag");
+        sdoc = getSpecialDoctor(39);
+        specialDoctorApp app15 = new specialDoctorApp(LocalTime.parse("11:30"), LocalDate.parse("2022-01-10"), getClinic("Tirat Carmel"),currPat, sdoc);
+        session.save(app15);
+//        sdoc.addAppointment(app15);
+        session.save(sdoc);
 
+        currPat = getPatient("NSabag");
+        sdoc = getSpecialDoctor(42);
+        specialDoctorApp app16 = new specialDoctorApp(LocalTime.parse("15:00"), LocalDate.parse("2022-01-09"), getClinic("Tirat Carmel"),currPat, sdoc);
+        session.save(app16);
+//        sdoc.addAppointment(app16);
+        session.save(sdoc);
+
+        currPat = getPatient("SGold");
+        sdoc = getSpecialDoctor(42);
+        specialDoctorApp app17 = new specialDoctorApp(LocalTime.parse("14:00"), LocalDate.parse("2022-01-10"), getClinic("Denia"),currPat, sdoc);
+        session.save(app17);
+//        sdoc.addAppointment(app17);
+        session.save(sdoc);
+
+        currPat = getPatient("IMoskovitz");
+        sdoc = getSpecialDoctor(42);
+        specialDoctorApp app18 = new specialDoctorApp(LocalTime.parse("13:40"), LocalDate.parse("2022-01-10"), getClinic("Denia"),currPat, sdoc);
+        session.save(app18);
+//        sdoc.addAppointment(app18);
+        session.save(sdoc);
+
+        currPat = getPatient("CLevi");
+        sdoc = getSpecialDoctor(42);
+        specialDoctorApp app19 = new specialDoctorApp(LocalTime.parse("13:00"), LocalDate.parse("2022-01-10"), getClinic("Denia"),currPat, sdoc);
+        session.save(app19);
+//        sdoc.addAppointment(app19);
+        session.save(sdoc);
+
+        currPat = getPatient("MRosen");
+        sdoc = getSpecialDoctor(42);
+        specialDoctorApp app20 = new specialDoctorApp(LocalTime.parse("12:00"), LocalDate.parse("2022-01-10"), getClinic("Denia"),currPat, sdoc);
+        session.save(app20);
+//        sdoc.addAppointment(app20);
+        session.save(sdoc);
 
     }
 
