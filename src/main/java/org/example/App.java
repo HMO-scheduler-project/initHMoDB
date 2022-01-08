@@ -313,36 +313,36 @@ public class App
     }
 
     public static void initServicesTable(){
-        clinicSpecialService service1 = new clinicSpecialService("covid test","Hadar", LocalTime.parse("07:00:00"), LocalTime.parse("17:00:00"));
+        clinicSpecialService service1 = new clinicSpecialService("covid test","Hadar", LocalTime.parse("07:00:00"), LocalTime.parse("17:00:00"),2);
         session.save(service1);
         session.flush();
-        clinicSpecialService service2 = new clinicSpecialService("covid test","Neve shaanan", LocalTime.parse("08:00:00"), LocalTime.parse("20:00:00"));
+        clinicSpecialService service2 = new clinicSpecialService("covid test","Neve shaanan", LocalTime.parse("08:00:00"), LocalTime.parse("20:00:00"),2);
         session.save(service2);
         session.flush();
-        clinicSpecialService service3 = new clinicSpecialService("covid test","Nesher", LocalTime.parse("08:00:00"), LocalTime.parse("18:00:00"));
+        clinicSpecialService service3 = new clinicSpecialService("covid test","Nesher", LocalTime.parse("08:00:00"), LocalTime.parse("18:00:00"),2);
         session.save(service3);
         session.flush();
 
-        clinicSpecialService service4 = new clinicSpecialService("covid vaccine","Hadar", LocalTime.parse("07:00:00"), LocalTime.parse("19:00:00"));
+        clinicSpecialService service4 = new clinicSpecialService("covid vaccine","Hadar", LocalTime.parse("07:00:00"), LocalTime.parse("19:00:00"),5);
         session.save(service4);
         session.flush();
-        clinicSpecialService service5 = new clinicSpecialService("covid vaccine","Neve shaanan", LocalTime.parse("08:00:00"), LocalTime.parse("20:00:00"));
+        clinicSpecialService service5 = new clinicSpecialService("covid vaccine","Neve shaanan", LocalTime.parse("08:00:00"), LocalTime.parse("20:00:00"),5);
         session.save(service5);
         session.flush();
-        clinicSpecialService service6 = new clinicSpecialService("covid vaccine","Nesher", LocalTime.parse("08:00:00"), LocalTime.parse("18:00:00"));
+        clinicSpecialService service6 = new clinicSpecialService("covid vaccine","Nesher", LocalTime.parse("08:00:00"), LocalTime.parse("18:00:00"),5);
         session.save(service6);
         session.flush();
 
-        clinicSpecialService service7 = new clinicSpecialService("influenza vaccine","Hadar", LocalTime.parse("07:00:00"), LocalTime.parse("19:00:00"));
+        clinicSpecialService service7 = new clinicSpecialService("influenza vaccine","Hadar", LocalTime.parse("07:00:00"), LocalTime.parse("19:00:00"),5);
         session.save(service7);
         session.flush();
-        clinicSpecialService service8 = new clinicSpecialService("influenza vaccine","Neve shaanan", LocalTime.parse("08:00:00"), LocalTime.parse("20:00:00"));
+        clinicSpecialService service8 = new clinicSpecialService("influenza vaccine","Neve shaanan", LocalTime.parse("08:00:00"), LocalTime.parse("20:00:00"),5);
         session.save(service8);
         session.flush();
-        clinicSpecialService service9 = new clinicSpecialService("influenza vaccine","Nesher", LocalTime.parse("08:00:00"), LocalTime.parse("18:00:00"));
+        clinicSpecialService service9 = new clinicSpecialService("influenza vaccine","Nesher", LocalTime.parse("08:00:00"), LocalTime.parse("18:00:00"),5);
         session.save(service9);
         session.flush();
-        clinicSpecialService service10 = new clinicSpecialService("influenza vaccine","Tirat Carmel", LocalTime.parse("07:00:00"), LocalTime.parse("17:00:00"));
+        clinicSpecialService service10 = new clinicSpecialService("influenza vaccine","Tirat Carmel", LocalTime.parse("07:00:00"), LocalTime.parse("17:00:00"),5);
         session.save(service10);
         session.flush();
 

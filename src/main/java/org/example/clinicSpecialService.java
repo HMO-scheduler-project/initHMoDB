@@ -13,12 +13,14 @@ public class clinicSpecialService {
     protected String clinic;
     protected LocalTime start;
     protected LocalTime end;
+    protected int room_num;
 
-    public clinicSpecialService(String service, String clinic, LocalTime start, LocalTime end) {
+    public clinicSpecialService(String service, String clinic, LocalTime start, LocalTime end,int room_num) {
         this.service = service;
         this.clinic = clinic;
         this.start = start;
         this.end = end;
+        this.room_num = room_num;
     }
 
     public clinicSpecialService() {
@@ -59,5 +61,13 @@ public class clinicSpecialService {
 
     public void setEnd(LocalTime end) {
         this.end = end;
+    }
+
+    public int getRoom_num() {
+        return room_num;
+    }
+
+    public void setRoom_num(int room_num) {
+        this.room_num = room_num;
     }
 }
