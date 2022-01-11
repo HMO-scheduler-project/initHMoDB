@@ -27,9 +27,13 @@ public class Clinic implements Serializable {
     @ManyToOne(targetEntity = Manager.class)
     protected Manager manager;
     @OneToMany(targetEntity = Appointment.class)
-    protected List<Appointment> clinicAppointments;
+    protected List<Appointment> clinicAppointments = new ArrayList<>();
+    @OneToMany(targetEntity = Patient.class)
+    protected List<Patient> patientList = new ArrayList<>();
     @OneToOne(targetEntity = WeeklyReport.class)
     protected WeeklyReport WeeklyReportOfClinic;
+    @OneToMany(targetEntity = SpecialDoctor.class)
+    protected List<SpecialDoctor> specialistsList = new ArrayList<>();
     protected boolean labServices;
     protected boolean covidTestService;
     protected boolean covidVaccine;
@@ -133,6 +137,10 @@ public class Clinic implements Serializable {
         this.clinicAppointments = clinicAppointments;
     }
 
+    public void addAppointment(Appointment app) {
+        this.clinicAppointments.add(app);
+    }
+
     public WeeklyReport getWeeklyReportOfClinic() {
         return WeeklyReportOfClinic;
     }
@@ -179,6 +187,30 @@ public class Clinic implements Serializable {
 
     public void setSpecialists(boolean specialists) {
         this.specialists = specialists;
+    }
+
+    public List<Patient> getPatientList() {
+        return patientList;
+    }
+
+    public void setPatientList(List<Patient> patientList) {
+        this.patientList = patientList;
+    }
+
+    public void addPatient(Patient pat){
+        this.patientList.add(pat);
+    }
+
+    public List<SpecialDoctor> getSpecialistsList() {
+        return specialistsList;
+    }
+
+    public void setSpecialistsList(List<SpecialDoctor> specialistsList) {
+        this.specialistsList = specialistsList;
+    }
+
+    public void addSpecialist(SpecialDoctor doctor){
+        this.specialistsList.add(doctor);
     }
 }
 

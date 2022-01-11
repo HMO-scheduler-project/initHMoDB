@@ -10,6 +10,7 @@ import java.util.List;
 public class Manager extends Employee {
     protected String role = "Manager";
     @OneToMany(targetEntity = Clinic.class)
+    @JoinColumn(name="clinic_id")
     protected List<Clinic> managing_clinics = new ArrayList<Clinic>();
 
     public Manager(String username, String password, String first_name, String last_name, String role, String card, String Email, String phone_num, String main_clinic, List<Clinic> managing_clinics, int room_num, LocalTime start,LocalTime end) throws NoSuchAlgorithmException {

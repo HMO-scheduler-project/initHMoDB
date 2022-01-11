@@ -1,9 +1,6 @@
 package org.example;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
@@ -13,7 +10,7 @@ import java.util.List;
 @Entity
 public class Patient extends User implements Serializable {
     @OneToMany(targetEntity = Appointment.class)
-    protected List<Appointment> patientAppointments = new ArrayList<Appointment>();
+    protected List<Appointment> patientAppointments = new ArrayList<>();
     @ManyToOne(targetEntity = Doctor.class)
     protected Doctor doctor;
     @ManyToOne(targetEntity = Appointment.class)
@@ -24,7 +21,7 @@ public class Patient extends User implements Serializable {
     @OneToOne(targetEntity = GreenPass.class)
     protected GreenPass green_pass;
     @OneToMany(targetEntity = SpecialDoctor.class)
-    protected List<SpecialDoctor> special_doctors = new ArrayList<SpecialDoctor>();
+    protected List<SpecialDoctor> special_doctors = new ArrayList<>();
 
 
     public Patient(String username, String password,String first_name,String last_name,Doctor doctor

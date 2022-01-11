@@ -14,7 +14,7 @@ public class Employee extends User {
     protected LocalTime start_working_hour;
     protected LocalTime finish_working_hour;
     @OneToMany(targetEntity = Appointment.class)
-    protected List<Appointment> appointments = new ArrayList<Appointment>();
+    protected List<Appointment> appointments = new ArrayList<>();
 
     public Employee(String username, String password,String first_name,String last_name,String role,String card,String Email,String phone_num,String main_clinic,int room_num,LocalTime start,LocalTime finish) throws NoSuchAlgorithmException {
         super(username, password,card,first_name,last_name,Email,phone_num);

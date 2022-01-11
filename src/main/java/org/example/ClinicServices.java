@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.time.LocalTime;
 
 @Entity
-public class clinicSpecialService {
+public class ClinicServices {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,7 +15,7 @@ public class clinicSpecialService {
     protected LocalTime end;
     protected int room_num;
 
-    public clinicSpecialService(String service, String clinic, LocalTime start, LocalTime end,int room_num) {
+    public ClinicServices(String service, String clinic, LocalTime start, LocalTime end, int room_num) {
         this.service = service;
         this.clinic = clinic;
         this.start = start;
@@ -23,7 +23,7 @@ public class clinicSpecialService {
         this.room_num = room_num;
     }
 
-    public clinicSpecialService() {
+    public ClinicServices() {
 
     }
 
