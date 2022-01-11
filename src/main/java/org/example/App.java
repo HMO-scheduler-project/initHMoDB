@@ -75,17 +75,17 @@ public class App
         Manager employee2 = new Manager("RCohen","RC1234","Ruth","Cohen","clinic manager",card_num,"rcohen@good_health.com","052-6347812", "Denia",null,1,LocalTime.parse("09:00:00"), LocalTime.parse("17:00:00"));
 //        employee2.addManagingClinic(getClinic("Denia"));
         session.save(employee2);
-//        clinic = getClinic("Denia");
-//        clinic.setManager(employee2);
-//        session.save(clinic);
+        clinic = getClinic("Denia");
+        clinic.setManager(employee2);
+        session.update(clinic);
 
         card_num = String.valueOf(Math.abs(rand.nextInt()));
         Manager employee3 = new Manager("MLevi","ML1234","Maya","Levi","clinic manager",card_num,"mlevi@good_health.com","050-7481239", "Neve shaanan",null,1,LocalTime.parse("09:00:00"), LocalTime.parse("17:00:00"));
 //        employee3.addManagingClinic(getClinic("Neve shaanan"));
         session.save(employee3);
-//        clinic = getClinic("Neve shaanan");
-//        clinic.setManager(employee3);
-//        session.save(clinic);
+        clinic = getClinic("Neve shaanan");
+        clinic.setManager(employee3);
+        session.update(clinic);
 
         card_num = String.valueOf(Math.abs(rand.nextInt()));
         SpecialDoctor employee4 = new SpecialDoctor("DLiberman","DL1234","David","Liberman","cardiologist",card_num,"dliberman@good_health.com","050-6374158", "Carmel",null,15,LocalTime.parse("09:00:00"), LocalTime.parse("19:00:00"));
@@ -100,17 +100,17 @@ public class App
         Manager employee5 = new Manager("DAviv","DA1234","Dan","Aviv","clinic manager",card_num,"daviv@good_health.com","053-864971", "Nesher",null,1,LocalTime.parse("09:00:00"), LocalTime.parse("17:00:00"));
 //        employee5.addManagingClinic(getClinic("Nesher"));
         session.save(employee5);
-//        clinic = getClinic("Nesher");
-//        clinic.setManager(employee5);
-//        session.save(clinic);
+        clinic = getClinic("Nesher");
+        clinic.setManager(employee5);
+        session.update(clinic);
 
         card_num = String.valueOf(Math.abs(rand.nextInt()));
         Manager employee6 = new Manager("TShuster","TS1234","Tal","Shuster","clinic manager",card_num,"tshuster@good_health.com","053-9641825", "Hadar",null,1,LocalTime.parse("09:00:00"), LocalTime.parse("17:00:00"));
 //        employee6.addManagingClinic(getClinic("Hadar"));
         session.save(employee6);
-//        clinic = getClinic("Hadar");
-//        clinic.setManager(employee6);
-//        session.save(clinic);
+        clinic = getClinic("Hadar");
+        clinic.setManager(employee6);
+        session.update(clinic);
 
         card_num = String.valueOf(Math.abs(rand.nextInt()));
         Doctor employee7 = new Doctor("REldar","RE1234","Rachel","Eldar","pediatrician",card_num,"reldar@good_health.com","052-7496152", "Hadar",3,LocalTime.parse("08:00:00"), LocalTime.parse("17:00:00"));
@@ -120,9 +120,9 @@ public class App
         Manager employee8 = new Manager("VSilverman","VS1234","Valeria","Silverman","clinic manager",card_num,"vsilverman@good_health.com","050-6317859", "Carmel",null,1,LocalTime.parse("09:00:00"), LocalTime.parse("17:00:00"));
 //        employee8.addManagingClinic(getClinic("Carmel"));
         session.save(employee8);
-//        clinic = getClinic("Carmel");
-//        clinic.setManager(employee8);
-//        session.save(clinic);
+        clinic = getClinic("Carmel");
+        clinic.setManager(employee8);
+        session.update(clinic);
 
         card_num = String.valueOf(Math.abs(rand.nextInt()));
         Doctor employee9 = new Doctor("DShitrit","DS1234","Dor","Shitrit","family_doctor",card_num,"dshitrit@good_health.com","050-7841528", "Neve shaanan",4,LocalTime.parse("08:00:00"), LocalTime.parse("17:00:00"));
@@ -132,9 +132,9 @@ public class App
         Manager employee10 = new Manager("CSella","CS1234","Chen","Sella","clinic manager",card_num,"csella@good_health.com","050-7841256", "Romema",null,1,LocalTime.parse("09:00:00"), LocalTime.parse("17:00:00"));
 //        employee10.addManagingClinic(getClinic("Romema"));
         session.save(employee10);
-//        clinic = getClinic("Romema");
-//        clinic.setManager(employee10);
-//        session.save(clinic);
+        clinic = getClinic("Romema");
+        clinic.setManager(employee10);
+        session.update(clinic);
 
         card_num = String.valueOf(Math.abs(rand.nextInt()));
         Doctor employee11 = new Doctor("NWeber","NW1234","Naama","Weber","family_doctor",card_num,"nweber@good_health.com","052-7841368", "Hadar",4,LocalTime.parse("09:00:00"), LocalTime.parse("17:00:00"));
