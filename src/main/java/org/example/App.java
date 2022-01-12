@@ -12,6 +12,7 @@ import org.hibernate.service.ServiceRegistry;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -731,6 +732,11 @@ public class App
 //        app1.getClinic().addAppointment(app1);
 //        session.save(app1);
 
+        currPat = getPatient("DHolland");
+        LabWorker labWorker = getLabWorkerByUsername("ABar");
+        Covid19VaccineApp covid19VaccineApp = new Covid19VaccineApp(LocalTime.parse("08:45"), LocalDate.parse("2021-09-11"), getClinic(labWorker.main_clinic), currPat, labWorker);
+        covid19VaccineApp.setArrived(true);
+        session.save(covid19VaccineApp);
 
         currPat = getPatient("SGold");
         doc = currPat.getDoctor();
@@ -941,7 +947,14 @@ public class App
 
     }
 
-
+    public static LabWorker getLabWorkerByUsername(String username) {
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<LabWorker> query = builder.createQuery(LabWorker.class);
+        Root<LabWorker> root = query.from(LabWorker.class);
+        query.select(root);
+        query.where(builder.equal(root.get("username"), username));
+        return session.createQuery(query).getSingleResult();
+    }
 
         public static void main(String[] args) {
         try {

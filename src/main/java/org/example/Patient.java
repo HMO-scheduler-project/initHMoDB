@@ -22,7 +22,9 @@ public class Patient extends User implements Serializable {
     protected GreenPass green_pass;
     @OneToMany(targetEntity = SpecialDoctor.class)
     protected List<SpecialDoctor> special_doctors = new ArrayList<>();
-
+    protected boolean covid_vaccinated;
+    protected boolean Influenza_vaccinated;
+    protected LocalDate covidVaccine_date;
 
     public Patient(String username, String password,String first_name,String last_name,Doctor doctor
             ,LocalDate date_of_birth,String card,String Email,String phone_num,Clinic clinic,
@@ -33,7 +35,9 @@ public class Patient extends User implements Serializable {
         this.clinic = clinic;
         this.date_of_birth = date_of_birth;
         this.green_pass=green_pass;
-
+        this.Influenza_vaccinated=false;
+        this.covid_vaccinated=false;
+        this.covidVaccine_date=null;
     }
 
     public Patient() {

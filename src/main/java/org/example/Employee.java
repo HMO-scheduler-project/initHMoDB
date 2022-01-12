@@ -2,6 +2,7 @@ package org.example;
 
 import javax.persistence.*;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,9 @@ public class Employee extends User {
     protected LocalTime finish_working_hour;
     @OneToMany(targetEntity = Appointment.class)
     protected List<Appointment> appointments = new ArrayList<>();
+    protected boolean covid_vaccinated;
+    protected boolean Influenza_vaccinated;
+    protected LocalDate covidVaccine_date;
 
     public Employee(String username, String password,String first_name,String last_name,String role,String card,String Email,String phone_num,String main_clinic,int room_num,LocalTime start,LocalTime finish) throws NoSuchAlgorithmException {
         super(username, password,card,first_name,last_name,Email,phone_num);
@@ -23,6 +27,9 @@ public class Employee extends User {
         this.room_num = room_num;
         this.start_working_hour = start;
         this.finish_working_hour = finish;
+        this.covid_vaccinated = true;
+        this.Influenza_vaccinated = true;
+        this.covidVaccine_date = LocalDate.parse("2021-09-01");
     }
 
     public Employee() {
@@ -93,6 +100,30 @@ public class Employee extends User {
 
     public void setFinish_working_hour(LocalTime finish_working_hour) {
         this.finish_working_hour = finish_working_hour;
+    }
+
+    public boolean isCovid_vaccinated() {
+        return covid_vaccinated;
+    }
+
+    public void setCovid_vaccinated(boolean covid_vaccinated) {
+        this.covid_vaccinated = covid_vaccinated;
+    }
+
+    public boolean isInfluenza_vaccinated() {
+        return Influenza_vaccinated;
+    }
+
+    public void setInfluenza_vaccinated(boolean influenza_vaccinated) {
+        Influenza_vaccinated = influenza_vaccinated;
+    }
+
+    public LocalDate getCovidVaccine_date() {
+        return covidVaccine_date;
+    }
+
+    public void setCovidVaccine_date(LocalDate covidVaccine_date) {
+        this.covidVaccine_date = covidVaccine_date;
     }
 
     @Override

@@ -2,6 +2,7 @@ package org.example;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -29,6 +30,14 @@ public class GreenPass implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public int getGreenpass_id() {
+        return greenpass_id;
+    }
+
+    public void setGreenpass_id(int greenpass_id) {
+        this.greenpass_id = greenpass_id;
     }
 
     public LocalDateTime getIssue_date() {
