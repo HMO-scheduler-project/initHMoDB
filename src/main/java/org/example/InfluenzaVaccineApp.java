@@ -20,3 +20,4 @@ public class InfluenzaVaccineApp extends LabApp{
         return 10;
     }
 }
+
