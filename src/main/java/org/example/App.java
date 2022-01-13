@@ -735,7 +735,7 @@ public class App {
 
         currPat = getPatient("DHolland");
         LabWorker labWorker = getLabWorkerByUsername("ABar");
-        Covid19VaccineApp covid19VaccineApp = new Covid19VaccineApp(LocalTime.parse("08:45"), LocalDate.parse("2021-09-11"), getClinic(labWorker.main_clinic), currPat, labWorker);
+        Covid19VaccineApp covid19VaccineApp = new Covid19VaccineApp(LocalTime.parse("08:45"), LocalDate.parse("2022-01-11"), getClinic(labWorker.main_clinic), currPat, labWorker);
         covid19VaccineApp.setArrived(true);
         session.save(covid19VaccineApp);
 
@@ -945,13 +945,36 @@ public class App {
 //        session.save(currPat);
 //        app20.getClinic().addAppointment(app20);
 //        session.save(app20);
-
+        currPat = getPatient("CLevi");
+        labWorker = getLabWorkerByUsername("TGil");
+        InfluenzaVaccineApp influenzaVaccineApp = new InfluenzaVaccineApp(LocalTime.parse("08:45"), LocalDate.parse("2022-01-11"), getClinic(labWorker.main_clinic), currPat, labWorker);
+        session.save(influenzaVaccineApp);
+        currPat = getPatient("CLevi");
+        labWorker = getLabWorkerByUsername("TGil");
+        Covid19Test covid19Test = new Covid19Test(LocalTime.parse("13:10"), LocalDate.parse("2022-01-11"), getClinic(labWorker.main_clinic), currPat, labWorker);
+        session.save(covid19Test);
+        currPat = getPatient("CLevi");
+        labWorker = getLabWorkerByUsername("TGil");
+        LabApp labApp = new LabApp(LocalTime.parse("09:00"), LocalDate.parse("2022-01-11"), getClinic(labWorker.main_clinic), currPat, labWorker);
+        session.save(labApp);
+        currPat = getPatient("CLevi");
+        Nurse nurse = getNurseByUsername("SCohen");
+        NurseApp nurseApp = new NurseApp(LocalTime.parse("10:10"), LocalDate.parse("2022-01-13"), getClinic(labWorker.main_clinic), currPat, nurse);
+        session.save(nurseApp);
     }
 
     public static LabWorker getLabWorkerByUsername(String username) {
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<LabWorker> query = builder.createQuery(LabWorker.class);
         Root<LabWorker> root = query.from(LabWorker.class);
+        query.select(root);
+        query.where(builder.equal(root.get("username"), username));
+        return session.createQuery(query).getSingleResult();
+    }
+    public static Nurse getNurseByUsername(String username) {
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Nurse> query = builder.createQuery(Nurse.class);
+        Root<Nurse> root = query.from(Nurse.class);
         query.select(root);
         query.where(builder.equal(root.get("username"), username));
         return session.createQuery(query).getSingleResult();
