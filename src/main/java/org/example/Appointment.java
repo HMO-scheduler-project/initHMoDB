@@ -12,7 +12,7 @@ public class Appointment implements Serializable {
     protected int appointment_id;
     protected LocalTime time;
     protected LocalTime actual_time;
-    protected boolean arrived;
+    protected boolean arrived=false;
     protected LocalDate date;
     @ManyToOne(targetEntity = Clinic.class)
     protected Clinic clinic;
