@@ -1204,6 +1204,8 @@ public class App {
             double[] averageOfTime = {0, 0, 0, 0, 0, 0};
             int[] counttheAppointments = {0, 0, 0, 0, 0, 0};
             ZoneId defaultZoneId = ZoneId.systemDefault();
+            String CurUsername=null;
+
             for (Appointment appointment : appointments) {
 //                System.out.println("going in for:"+ appointment.getClinic().getCounter());
                 LocalDate localDate = appointment.getDate();
@@ -1217,33 +1219,55 @@ public class App {
                // if ((appointment.getActual_time() != null) && (appointment.getTime() != null)) {
 
                     int CurrentWaitingTime = (int) MINUTES.between(appointment.getTime(),appointment.getActual_time());
-                    if ((doctorId == appointment.getEmployee().getUserId()) && (appointments.indexOf(appointment) != (appointments.size()-1))) {
-                        //while we are on the same doctor
-                        doctorId = appointment.getEmployee().getUserId();
-                        averageOfTime[dayOfWeek - 1] += CurrentWaitingTime;
-                        counttheAppointments[dayOfWeek - 1]++;
-                    } else if ((doctorId == -1)&&(appointments.indexOf(appointment) != (appointments.size()-1))) {//do the first time
+                    //first time and not last time
+                    if ((doctorId == -1)&&(appointments.indexOf(appointment) != (appointments.size()-1))) {
                         doctorId = appointment.getEmployee().getUserId();
                         averageOfTime[dayOfWeek - 1] = CurrentWaitingTime;
                         counttheAppointments[dayOfWeek - 1] = 1;
-                        System.out.println("adsssssss"+appointments.indexOf(appointment));
-                        System.out.println("size"+appointments.size());
-                    } else {//do what happened each time we get to new doctor
-                        if ((appointments.indexOf(appointment) == (appointments.size()-1))) {
-                            averageOfTime[dayOfWeek - 1] += CurrentWaitingTime;
-                            counttheAppointments[dayOfWeek - 1]++;
-                        }
+                        CurUsername=(appointment.getEmployee().getFirstName() + " " + appointment.getEmployee().getLastName());
+
+                        System.out.println("doctor1:"+appointment.getEmployee().getUsername());
+                        System.out.println("index1:"+appointments.indexOf(appointment));
+                        System.out.println("size1"+appointments.size());
+                    }
+                    //last time and first time
+                    else if((appointments.indexOf(appointment) == (appointments.size()-1))&&(CurUsername==null)) {
+
+                        averageOfTime[dayOfWeek - 1] += CurrentWaitingTime;
+                        counttheAppointments[dayOfWeek - 1]++;
+                        CurUsername=(appointment.getEmployee().getFirstName() + " " + appointment.getEmployee().getLastName());
+                        doctorId = appointment.getEmployee().getUserId();
+                        AwaitingTimeRep ReadyReport = new AwaitingTimeRep(CurUsername,clinic, averageOfTime[0], averageOfTime[1], averageOfTime[2], averageOfTime[3], averageOfTime[4], averageOfTime[5], counttheAppointments[0], counttheAppointments[1], counttheAppointments[2], counttheAppointments[3], counttheAppointments[4], counttheAppointments[5]);
+                        session.save(ReadyReport);
+                        session.flush();
+
+                        System.out.println("doctor13:" + appointment.getEmployee().getUsername());
+                        System.out.println("index13:" + appointments.indexOf(appointment));
+                        System.out.println("size13" + appointments.size());
+                    }//while we are on the same doctor and not at the end
+                    else if ((doctorId == appointment.getEmployee().getUserId()) && (appointments.indexOf(appointment) != (appointments.size()-1))) {
+                    averageOfTime[dayOfWeek - 1] += CurrentWaitingTime;
+                    counttheAppointments[dayOfWeek - 1]++;
+
+                    CurUsername=(appointment.getEmployee().getFirstName() + " " + appointment.getEmployee().getLastName());
+                    doctorId = appointment.getEmployee().getUserId();
+
+                        System.out.println("doctor2:"+appointment.getEmployee().getUsername());
+                        System.out.println("index2:"+appointments.indexOf(appointment));
+                        System.out.println("size2"+appointments.size());
+                }//middle moveing between doctors (not the end)
+                    else if((appointments.indexOf(appointment) != (appointments.size()-1))&&(doctorId != appointment.getEmployee().getUserId())) {
                         for (int j = 0; j < 6; j++) {
                             if(counttheAppointments[j]!=0)
                             averageOfTime[j] = averageOfTime[j] / counttheAppointments[j];
-                            System.out.println("time waitint:"+ averageOfTime[j]);
                         }
-                        //here we need to insert everything we want into the awatingtimerep raw
-                        AwaitingTimeRep ReadyReport = new AwaitingTimeRep(appointment.getEmployee().getFirstName() + " " + appointment.getEmployee().getLastName(),clinic, averageOfTime[0], averageOfTime[1], averageOfTime[2], averageOfTime[3], averageOfTime[4], averageOfTime[5], counttheAppointments[0], counttheAppointments[1], counttheAppointments[2], counttheAppointments[3], counttheAppointments[4], counttheAppointments[5]);
+                        AwaitingTimeRep ReadyReport = new AwaitingTimeRep(CurUsername,clinic, averageOfTime[0], averageOfTime[1], averageOfTime[2], averageOfTime[3], averageOfTime[4], averageOfTime[5], counttheAppointments[0], counttheAppointments[1], counttheAppointments[2], counttheAppointments[3], counttheAppointments[4], counttheAppointments[5]);
                         session.save(ReadyReport);
                         session.flush();
-                        if ((appointments.indexOf(appointment) != (appointments.size()-1))) {
-                            for (int j = 0; j < 6; j++) {
+                        doctorId = appointment.getEmployee().getUserId();
+                        CurUsername=(appointment.getEmployee().getFirstName() + " " + appointment.getEmployee().getLastName());
+                   //restart & do first time for new doctor
+                        for (int j = 0; j < 6; j++) {
                                 if (j == (dayOfWeek - 1)) {
                                     averageOfTime[dayOfWeek - 1] = CurrentWaitingTime;
                                     counttheAppointments[dayOfWeek - 1] = 1;
@@ -1251,13 +1275,115 @@ public class App {
                                     averageOfTime[dayOfWeek - 1] = 0;
                                     counttheAppointments[dayOfWeek - 1] = 0;
                                 }
+                                }
+
+                        System.out.println("doctor22:"+appointment.getEmployee().getUsername());
+                        System.out.println("index22:"+appointments.indexOf(appointment));
+                        System.out.println("size22"+appointments.size());
+                    }//last time and changeing doctors
+                    else if(((appointments.indexOf(appointment) == (appointments.size()-1))&&(doctorId != appointment.getEmployee().getUserId())))
+                    {
+                        System.out.println("changeing username:"+CurUsername);
+                        System.out.println("changeing username to:"+(appointment.getEmployee().getFirstName() + " " + appointment.getEmployee().getLastName()));
+
+                        for (int j = 0; j < 6; j++) {
+                            if(counttheAppointments[j]!=0)
+                                averageOfTime[j] = averageOfTime[j] / counttheAppointments[j];
+                        }
+                        AwaitingTimeRep ReadyReport = new AwaitingTimeRep(CurUsername,clinic, averageOfTime[0], averageOfTime[1], averageOfTime[2], averageOfTime[3], averageOfTime[4], averageOfTime[5], counttheAppointments[0], counttheAppointments[1], counttheAppointments[2], counttheAppointments[3], counttheAppointments[4], counttheAppointments[5]);
+                        session.save(ReadyReport);
+                        session.flush();
+                        //save last doctor
+                        doctorId = appointment.getEmployee().getUserId();
+                        CurUsername=(appointment.getEmployee().getFirstName() + " " + appointment.getEmployee().getLastName());
+                        //restart & do first time for new doctor
+                        for (int j = 0; j < 6; j++) {
+                            if (j == (dayOfWeek - 1)) {
+                                averageOfTime[dayOfWeek - 1] = CurrentWaitingTime;
+                                counttheAppointments[dayOfWeek - 1] = 1;
+                            } else {
+                                averageOfTime[dayOfWeek - 1] = 0;
+                                counttheAppointments[dayOfWeek - 1] = 0;
                             }
                         }
-                        doctorId = appointment.getEmployee().getUserId();
+                        ReadyReport = new AwaitingTimeRep(CurUsername,clinic, averageOfTime[0], averageOfTime[1], averageOfTime[2], averageOfTime[3], averageOfTime[4], averageOfTime[5], counttheAppointments[0], counttheAppointments[1], counttheAppointments[2], counttheAppointments[3], counttheAppointments[4], counttheAppointments[5]);
+                        session.save(ReadyReport);
+                        session.flush();
+
+                        System.out.println("doctor32:"+appointment.getEmployee().getUsername());
+                        System.out.println("index32:"+appointments.indexOf(appointment));
+                        System.out.println("size32"+appointments.size());
+                    }
+                    //last time and same doctor
+                    else if((appointments.indexOf(appointment) == (appointments.size()-1))&&(doctorId == appointment.getEmployee().getUserId()))
+                    {
+                        averageOfTime[dayOfWeek - 1] += CurrentWaitingTime;
+                        counttheAppointments[dayOfWeek - 1]++;
+
+                        for (int j = 0; j < 6; j++) {
+                            if(counttheAppointments[j]!=0)
+                                averageOfTime[j] = averageOfTime[j] / counttheAppointments[j];
+                        }
+                        AwaitingTimeRep ReadyReport = new AwaitingTimeRep(CurUsername,clinic, averageOfTime[0], averageOfTime[1], averageOfTime[2], averageOfTime[3], averageOfTime[4], averageOfTime[5], counttheAppointments[0], counttheAppointments[1], counttheAppointments[2], counttheAppointments[3], counttheAppointments[4], counttheAppointments[5]);
+                        session.save(ReadyReport);
+                        session.flush();
+
+
+                        System.out.println("doctor3:"+appointment.getEmployee().getUsername());
+                        System.out.println("index3:"+appointments.indexOf(appointment));
+                        System.out.println("size3"+appointments.size());
+                    }
+
+//                        //case where the last person is the same as the one befor
+//                        if ((appointments.indexOf(appointment) == (appointments.size()-1))&&(CurUsername==(appointment.getEmployee().getFirstName() + " " + appointment.getEmployee().getLastName()))) {
+//                            averageOfTime[dayOfWeek - 1] += CurrentWaitingTime;
+//                            counttheAppointments[dayOfWeek - 1]++;
+//                        }
+//                        for (int j = 0; j < 6; j++) {
+//                            if(counttheAppointments[j]!=0)
+//                            averageOfTime[j] = averageOfTime[j] / counttheAppointments[j];
+//                        }
+//                        if(CurUsername==null)//incase there is only one person
+//                            CurUsername=(appointment.getEmployee().getFirstName() + " " + appointment.getEmployee().getLastName());
+//                        //here we need to insert everything we want into the awatingtimerep raw
+//                        AwaitingTimeRep ReadyReport = new AwaitingTimeRep(CurUsername,clinic, averageOfTime[0], averageOfTime[1], averageOfTime[2], averageOfTime[3], averageOfTime[4], averageOfTime[5], counttheAppointments[0], counttheAppointments[1], counttheAppointments[2], counttheAppointments[3], counttheAppointments[4], counttheAppointments[5]);
+//                        session.save(ReadyReport);
+//                        session.flush();
+//                        //case we have another new person
+//                        if ((appointments.indexOf(appointment) != (appointments.size()-1))) {
+//                            for (int j = 0; j < 6; j++) {
+//                                if (j == (dayOfWeek - 1)) {
+//                                    averageOfTime[dayOfWeek - 1] = CurrentWaitingTime;
+//                                    counttheAppointments[dayOfWeek - 1] = 1;
+//                                } else {
+//                                    averageOfTime[dayOfWeek - 1] = 0;
+//                                    counttheAppointments[dayOfWeek - 1] = 0;
+//                                }
+//                                //case if the last person is diffrent then the one befor
+//                                if ((appointments.indexOf(appointment) == (appointments.size()-1))&&(CurUsername!=(appointment.getEmployee().getFirstName() + " " + appointment.getEmployee().getLastName()))) {
+//                                    CurUsername=(appointment.getEmployee().getFirstName() + " " + appointment.getEmployee().getLastName());
+//
+//                                    for (j = 0; j < 6; j++) {
+//                                        if (j == (dayOfWeek - 1)) {
+//                                            averageOfTime[dayOfWeek - 1] = CurrentWaitingTime;
+//                                            counttheAppointments[dayOfWeek - 1] = 1;
+//                                        } else {
+//                                            averageOfTime[dayOfWeek - 1] = 0;
+//                                            counttheAppointments[dayOfWeek - 1] = 0;
+//                                        }
+//
+//                                     }
+//                                    ReadyReport = new AwaitingTimeRep(CurUsername,clinic, averageOfTime[0], averageOfTime[1], averageOfTime[2], averageOfTime[3], averageOfTime[4], averageOfTime[5], counttheAppointments[0], counttheAppointments[1], counttheAppointments[2], counttheAppointments[3], counttheAppointments[4], counttheAppointments[5]);
+//                                    session.save(ReadyReport);
+//                                    session.flush();
+//                                }
+//                            }
+//                        }
+                doctorId = appointment.getEmployee().getUserId();
                     }
                 //}
             }
-    }
+
     public static void main(String[] args) {
         try {
             SessionFactory sessionFactory = getSessionFactory();
