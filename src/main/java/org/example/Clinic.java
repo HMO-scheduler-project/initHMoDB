@@ -30,8 +30,14 @@ public class Clinic implements Serializable {
     protected List<Appointment> clinicAppointments = new ArrayList<>();
     @OneToMany(targetEntity = Patient.class)
     protected List<Patient> patientList = new ArrayList<>();
-    @OneToOne(targetEntity = WeeklyReport.class)
-    protected WeeklyReport WeeklyReportOfClinic;
+
+    @OneToOne(targetEntity = AwaitingTimeRep.class)
+    protected AwaitingTimeRep awaitingTimeRep;
+    @OneToOne(targetEntity = MissedAppRep.class)
+    protected MissedAppRep missedAppRep;
+    @OneToOne(targetEntity = ServicesTypeRep.class)
+    protected ServicesTypeRep servicesTypeRep;
+
     @OneToMany(targetEntity = SpecialDoctor.class)
     protected List<SpecialDoctor> specialistsList = new ArrayList<>();
     protected boolean labServices;
@@ -55,6 +61,10 @@ public class Clinic implements Serializable {
         this.covidVaccine = false;
         this.influenzaVaccine = false;
         this.specialists = false;
+    }
+
+    public int getCounter() {
+        return Counter;
     }
 
     public String getName() {
@@ -141,13 +151,7 @@ public class Clinic implements Serializable {
         this.clinicAppointments.add(app);
     }
 
-    public WeeklyReport getWeeklyReportOfClinic() {
-        return WeeklyReportOfClinic;
-    }
 
-    public void setWeeklyReportOfClinic(WeeklyReport weeklyReportOfClinic) {
-        WeeklyReportOfClinic = weeklyReportOfClinic;
-    }
 
     public boolean hasLabServices() {
         return labServices;

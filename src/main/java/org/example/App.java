@@ -3,7 +3,7 @@ package org.example;
 import org.example.Reports.AwaitingTimeRep;
 import org.example.Reports.MissedAppRep;
 import org.example.Reports.ServicesTypeRep;
-import org.example.Reports.WeeklyReport;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -12,13 +12,21 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
+
+import static java.time.DayOfWeek.SUNDAY;
+import static java.time.temporal.ChronoUnit.MINUTES;
+import static java.time.temporal.TemporalAdjusters.previous;
 
 
 public class App {
@@ -29,7 +37,7 @@ public class App {
         configuration.addAnnotatedClass(AwaitingTimeRep.class);
         configuration.addAnnotatedClass(MissedAppRep.class);
         configuration.addAnnotatedClass(ServicesTypeRep.class);
-        configuration.addAnnotatedClass(WeeklyReport.class);
+
         configuration.addAnnotatedClass(Appointment.class);
         configuration.addAnnotatedClass(childrenDoctorApp.class);
         configuration.addAnnotatedClass(Clinic.class);
@@ -735,13 +743,20 @@ public class App {
 
         currPat = getPatient("DHolland");
         LabWorker labWorker = getLabWorkerByUsername("ABar");
-        Covid19VaccineApp covid19VaccineApp = new Covid19VaccineApp(LocalTime.parse("08:45"), LocalDate.parse("2021-09-11"), getClinic(labWorker.main_clinic), currPat, labWorker);
-        covid19VaccineApp.setArrived(true);
+        Covid19VaccineApp covid19VaccineApp = new Covid19VaccineApp(LocalTime.parse("10:00"),null,false, LocalDate.parse("2022-01-09"), getClinic(labWorker.main_clinic), currPat, labWorker);
+        session.save(covid19VaccineApp);
+        covid19VaccineApp = new Covid19VaccineApp(LocalTime.parse("08:45"),LocalTime.parse("09:00"),true, LocalDate.parse("2022-01-11"), getClinic(labWorker.main_clinic), currPat, labWorker);
+        currPat = getPatient("SGold");
+        covid19VaccineApp = new Covid19VaccineApp(LocalTime.parse("09:00"),null,false, LocalDate.parse("2022-01-09"), getClinic(labWorker.main_clinic), currPat, labWorker);
+        session.save(covid19VaccineApp);
+        covid19VaccineApp = new Covid19VaccineApp(LocalTime.parse("08:45"),LocalTime.parse("09:00"),true, LocalDate.parse("2022-01-11"), getClinic(labWorker.main_clinic), currPat, labWorker);
         session.save(covid19VaccineApp);
 
         currPat = getPatient("SGold");
         doc = currPat.getDoctor();
-        doctorApp app2 = new doctorApp(LocalTime.parse("09:00"), LocalDate.parse("2022-01-19"), currPat.getClinic(), currPat, doc);
+        doctorApp app2 = new doctorApp (LocalTime.parse("08:45"),LocalTime.parse("09:00"),true, LocalDate.parse("2022-01-11"), currPat.getClinic(), currPat, doc);
+
+
         session.save(app2);
 //        doc.addAppointment(app2);
 //        session.save(doc);
@@ -752,18 +767,19 @@ public class App {
 
         currPat = getPatient("NSabag");
         doc = currPat.getDoctor();
-        doctorApp app3 = new doctorApp(LocalTime.parse("12:00"), LocalDate.parse("2022-01-20"), currPat.getClinic(), currPat, doc);
+        doctorApp app3 = new doctorApp(LocalTime.parse("12:00"),LocalTime.parse("12:30"),true, LocalDate.parse("2022-01-13"), currPat.getClinic(), currPat, doc);
         session.save(app3);
-//        doc.addAppointment(app3);
-//        session.save(doc);
-//        currPat.addAppointment(app3);
-//        session.save(currPat);
-//        app3.getClinic().addAppointment(app3);
-//        session.save(app3);
+        currPat = getPatient("NSabag");
+        doc = currPat.getDoctor();
+        doctorApp app33 = new doctorApp(null,LocalTime.parse("12:00"),false, LocalDate.parse("2022-01-12"), currPat.getClinic(), currPat, doc);
+        session.save(app33);
 
         currPat = getPatient("TShitrit");
         doc = currPat.getDoctor();
-        doctorApp app4 = new doctorApp(LocalTime.parse("14:00"), LocalDate.parse("2022-01-23"), currPat.getClinic(), currPat, doc);
+        doctorApp app4 = new doctorApp(null,LocalTime.parse("14:00"),false, LocalDate.parse("2022-01-11"), currPat.getClinic(), currPat, doc);
+        doctorApp app44 = new doctorApp(LocalTime.parse("14:00"),LocalTime.parse("15:00"),true, LocalDate.parse("2022-01-13"), currPat.getClinic(), currPat, doc);
+
+        session.save(app44);
         session.save(app4);
 //        doc.addAppointment(app4);
 //        session.save(doc);
@@ -835,6 +851,23 @@ public class App {
 //        session.save(currPat);
 //        app10.getClinic().addAppointment(app10);
 //        session.save(app10);
+        currPat = getPatient("TShitrit");
+        doc = currPat.getDoctor();
+        doctorApp app = new doctorApp(LocalTime.parse("14:00"),LocalTime.parse("14:00"),true, LocalDate.parse("2022-01-13"), currPat.getClinic(), currPat, doc);
+        session.save(app);
+        app = new doctorApp(LocalTime.parse("14:00"),LocalTime.parse("14:30"),true, LocalDate.parse("2022-01-12"), currPat.getClinic(), currPat, doc);
+        session.save(app);
+        app = new doctorApp(LocalTime.parse("10:00"),LocalTime.parse("14:30"),true, LocalDate.parse("2022-01-09"), currPat.getClinic(), currPat, doc);
+        session.save(app);
+        currPat = getPatient("DCohen");
+        sdoc = getSpecialDoctor(27);
+        app = new doctorApp(LocalTime.parse("14:00"),LocalTime.parse("14:00"),true, LocalDate.parse("2022-01-13"), currPat.getClinic(), currPat, doc);
+        session.save(app);
+        app = new doctorApp(LocalTime.parse("14:00"),LocalTime.parse("14:30"),true, LocalDate.parse("2022-01-12"), currPat.getClinic(), currPat, doc);
+        session.save(app);
+        app = new doctorApp(LocalTime.parse("10:00"),LocalTime.parse("14:30"),true, LocalDate.parse("2022-01-09"), currPat.getClinic(), currPat, doc);
+        session.save(app);
+
 
         currPat = getPatient("DHolland");
         sdoc = getSpecialDoctor(27);
@@ -946,6 +979,9 @@ public class App {
 //        app20.getClinic().addAppointment(app20);
 //        session.save(app20);
 
+
+
+
     }
 
     public static LabWorker getLabWorkerByUsername(String username) {
@@ -956,7 +992,279 @@ public class App {
         query.where(builder.equal(root.get("username"), username));
         return session.createQuery(query).getSingleResult();
     }
+    private static void initReports() {
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Clinic> query = builder.createQuery(Clinic.class);
+        query.from(Clinic.class);
+        List<Clinic> ClinicList = session.createQuery(query).getResultList();
 
+
+        ClearAwaitingTimeReport();
+        ClearMissedAppReport();
+        ClearServicesTypeReport();
+        for (Clinic clinic : ClinicList) {
+            System.out.println(clinic.getCounter());
+
+            CreateServicesTypeReportForClinic(clinic);
+            CreateAwaitingTimeRepForClinic(clinic);
+            CreateMissedAppRepForClinic(clinic);
+
+
+        }
+    }
+
+        public static int ClearServicesTypeReport(){
+            //clear the report table
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaDelete<ServicesTypeRep> query = criteriaBuilder.createCriteriaDelete(ServicesTypeRep.class);
+            Root<ServicesTypeRep> root = query.from(ServicesTypeRep.class);
+            int result = session.createQuery(query).executeUpdate();
+            return result;
+        }
+        public static int ClearMissedAppReport(){
+            //clear the report table
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaDelete<MissedAppRep> query = criteriaBuilder.createCriteriaDelete(MissedAppRep.class);
+            Root<MissedAppRep> root = query.from(MissedAppRep.class);
+            int result = session.createQuery(query).executeUpdate();
+            return result;
+        }
+        public static int ClearAwaitingTimeReport(){
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaDelete<AwaitingTimeRep> query = criteriaBuilder.createCriteriaDelete(AwaitingTimeRep.class);
+            Root<AwaitingTimeRep> root = query.from(AwaitingTimeRep.class);
+            int result = session.createQuery(query).executeUpdate();
+            return result;
+
+        }
+
+
+        public static void  CreateServicesTypeReportForClinic(Clinic clinic){
+
+            ZoneId defaultZoneId1 = ZoneId.systemDefault();
+            LocalDate today = LocalDate.now();
+            Calendar c1 = Calendar.getInstance();
+            c1.setTime(Date.from(today.atStartOfDay(defaultZoneId1).toInstant()));
+            //FOR EVERY CLINIC HOW MANY PATIENTS FOR EACH TYPE EACH DAY
+            ///first get today's date and sundays date
+            // LocalDate nextSunday = today.with(next(SUNDAY));
+            LocalDate thisPastSunday = today.with(previous(SUNDAY));
+
+//gets the query with the needed data
+            CriteriaBuilder builder1 = session.getCriteriaBuilder();
+            CriteriaQuery<Appointment> query1 = builder1.createQuery(Appointment.class);
+            Root<Appointment> root1 = query1.from(Appointment.class);
+            query1.multiselect(root1.get("clinic"),root1.get("appointment_id"),root1.get("time"),  root1.get("arrived"), root1.get("date"),root1.get("employee"),root1.get("type"));
+            query1.where(builder1.equal(root1.get("clinic"), clinic), builder1.equal(root1.get("arrived"), true), builder1.between(root1.<LocalDate>get("date"), thisPastSunday, today));
+            query1.orderBy(builder1.asc(root1.get("date")));
+            List<Appointment> appointments = session.createQuery(query1).getResultList();
+
+//            for (Appointment appointment : appointments) {
+//                System.out.println("counter:  " + appointment.getClinic().getCounter());
+//                System.out.println(appointment.getType());
+//                System.out.println(appointment.getEmployee().getRole());
+//
+//            }
+
+//1. initialise every field to zero
+//        2. for every absence ++
+            int[] covid_Test = {0, 0, 0, 0, 0, 0};
+            int[] familyDoctor = {0, 0, 0, 0, 0, 0};
+            int[] lab_Test_Appointments = {0, 0, 0, 0, 0, 0};
+            int[] nurse_Care = {0, 0, 0, 0, 0, 0};
+            int[] pediatrician = {0, 0, 0, 0, 0, 0};
+            int[] vaccine_Appointments = {0, 0, 0, 0, 0, 0};
+
+            ZoneId defaultZoneId = ZoneId.systemDefault();
+            for (Appointment appointment : appointments) {
+                LocalDate localDate = appointment.getDate();
+                Calendar c = Calendar.getInstance();
+                c.setTime(Date.from(localDate.atStartOfDay(defaultZoneId).toInstant()));
+
+//                if(appointment.getType().equals("Doctor appointment")) {
+//                    System.out.println("asddddddddd");
+//                    System.out.println(appointment.getEmployee().getRole());
+//                    System.out.println(appointment.getDate());
+//
+//                }
+//                if(!(appointment.getType().equals("Doctor appointment"))) {
+//                    System.out.println("aaaaaaaaaaaaaa");
+//                    System.out.println(appointment.getEmployee().getRole());
+//                    System.out.println(appointment.getDate());
+//
+//
+//                }
+
+
+                int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+                if ((appointment.getType().equals("Doctor appointment")) && (appointment.getEmployee().getRole() == "pediatrician"))
+                    pediatrician[dayOfWeek - 1]++;
+                if ((appointment.getType().equals("Doctor appointment")) && (appointment.getEmployee().getRole() == "family_doctor"))
+                    familyDoctor[dayOfWeek - 1]++;
+                if ((appointment.getType().equals("Lab appointment")))
+                    lab_Test_Appointments[dayOfWeek - 1]++;
+                if ((appointment.getType().equals("Nurse appointment")))
+                    nurse_Care[dayOfWeek - 1]++;
+                if ((appointment.getType().equals("Covid test appointment")))
+                    covid_Test[dayOfWeek - 1]++;
+                if (appointment.getEmployee().getRole().equals("Covid 19 vaccine appointment"))
+                    vaccine_Appointments[dayOfWeek - 1]++;
+
+            }
+
+
+            ServicesTypeRep[] ReadyReport = new ServicesTypeRep[6];
+            ReadyReport[0] = new ServicesTypeRep("Sunday", familyDoctor[0], pediatrician[0], vaccine_Appointments[0], lab_Test_Appointments[0], covid_Test[0], nurse_Care[0],clinic);
+            ReadyReport[1] = new ServicesTypeRep("Monday", familyDoctor[1], pediatrician[1], vaccine_Appointments[1], lab_Test_Appointments[1], covid_Test[1], nurse_Care[1],clinic);
+            ReadyReport[2] = new ServicesTypeRep("Tuesday", familyDoctor[2], pediatrician[2], vaccine_Appointments[2], lab_Test_Appointments[2], covid_Test[2], nurse_Care[2],clinic);
+            ReadyReport[3] = new ServicesTypeRep("Wednesday", familyDoctor[3], pediatrician[3], vaccine_Appointments[3], lab_Test_Appointments[3], covid_Test[3], nurse_Care[3],clinic);
+            ReadyReport[4] = new ServicesTypeRep("Thursday", familyDoctor[4], pediatrician[4], vaccine_Appointments[4], lab_Test_Appointments[4], covid_Test[4], nurse_Care[4],clinic);
+            ReadyReport[5] = new ServicesTypeRep("Friday", familyDoctor[5], pediatrician[5], vaccine_Appointments[5], lab_Test_Appointments[5], covid_Test[5], nurse_Care[5],clinic);
+
+
+            //= new []ServicesTypeRep("Sunday", familyDoctor, pediatrician, vaccine_Appointments, lab_Test_Appointments, covid_Test, nurse_Care);
+            session.save(ReadyReport[0]);
+            session.save(ReadyReport[1]);
+            session.save(ReadyReport[2]);
+            session.save(ReadyReport[3]);
+            session.save(ReadyReport[4]);
+            session.save(ReadyReport[5]);
+            session.flush();
+        }
+
+        public static void CreateMissedAppRepForClinic(Clinic clinic) {
+            ZoneId defaultZoneId1 = ZoneId.systemDefault();
+            LocalDate today = LocalDate.now();
+            Calendar c1 = Calendar.getInstance();
+            c1.setTime(Date.from(today.atStartOfDay(defaultZoneId1).toInstant()));
+            // LocalDate nextSunday = today.with(next(SUNDAY));
+            LocalDate thisPastSunday = today.with(previous(SUNDAY));
+
+            //gets the query with the needed data
+            CriteriaBuilder builder1 = session.getCriteriaBuilder();
+            CriteriaQuery<Appointment> query1 = builder1.createQuery(Appointment.class);
+            Root<Appointment> root1 = query1.from(Appointment.class);
+            query1.multiselect(root1.get("clinic"), root1.get("appointment_id"), root1.get("time"), root1.get("arrived"),root1.get("date"),root1.get("employee"),root1.get("type"));
+            query1.where(builder1.equal(root1.get("clinic"), clinic), builder1.equal(root1.get("arrived"), false), builder1.between(root1.<LocalDate>get("date"), thisPastSunday, today));
+            //builder1.equal(root1.get("clinic_Num"), clinic.getNum())
+            //employee_user_id
+
+            query1.orderBy(builder1.asc(root1.get("employee")));
+            List<Appointment> appointments = session.createQuery(query1).getResultList();
+            //1. initialise every field to zero
+//        2. for every absence ++
+            int covid_Test = 0;
+            int familyDoctor = 0;
+            int lab_Test_Appointments = 0;
+            int nurse_Care = 0;
+            int pediatrician = 0;
+            int vaccine_Appointments = 0;
+
+
+            for (Appointment appointment : appointments) {
+//                System.out.println(appointment.getType()+"1");
+//                System.out.println(appointment.getEmployee()+"1");
+
+                if ((appointment.getType().equals("Doctor appointment")) && (appointment.getEmployee().getRole() == "pediatrician"))
+                    pediatrician++;
+                if ((appointment.getType().equals("Doctor appointment")) && (appointment.getEmployee().getRole() == "family_doctor"))
+                    familyDoctor++;
+                if ((appointment.getType().equals("Lab appointment")))
+                    lab_Test_Appointments++;
+                if ((appointment.getType().equals("Nurse appointment")))
+                    nurse_Care++;
+                if ((appointment.getType().equals("Covid test appointment")))
+                    covid_Test++;
+                if (appointment.getEmployee().getRole().equals("Covid 19 vaccine appointment"))
+                    vaccine_Appointments++;
+            }
+            MissedAppRep ReadyReport = new MissedAppRep(clinic,familyDoctor, pediatrician, vaccine_Appointments, lab_Test_Appointments, covid_Test, nurse_Care);
+            session.save(ReadyReport);
+            session.flush();
+
+        }
+        public static void CreateAwaitingTimeRepForClinic(Clinic clinic) {
+            ZoneId defaultZoneId1 = ZoneId.systemDefault();
+            LocalDate today = LocalDate.now();
+            Calendar c1 = Calendar.getInstance();
+            c1.setTime(Date.from(today.atStartOfDay(defaultZoneId1).toInstant()));
+
+
+            // LocalDate nextSunday = today.with(next(SUNDAY));
+            LocalDate thisPastSunday = today.with(previous(SUNDAY));
+
+//gets the query with the needed data
+            CriteriaBuilder builder1 = session.getCriteriaBuilder();
+            CriteriaQuery<Appointment> query1 = builder1.createQuery(Appointment.class);
+            Root<Appointment> root1 = query1.from(Appointment.class);
+
+            query1.multiselect(root1.get("time"),root1.get("actual_time"), root1.get("arrived"),root1.get("date"), root1.get("clinic"),root1.get("employee"));
+            query1.where(builder1.equal(root1.get("clinic"), clinic), builder1.equal(root1.get("arrived"), true), builder1.between(root1.<LocalDate>get("date"), thisPastSunday, today));
+            query1.orderBy(builder1.asc(root1.get("employee")));
+//,builder1.notEqual(root1.get("employee"), null),builder1.notEqual(root1.get("employee"), "")
+            List<Appointment> appointments = session.createQuery(query1).getResultList();
+// 1.sum actual_time-time for each doctor (only if actual_time is there)
+//   2. count for each doctor how much arrivals were there
+//    3.make average
+//    4.place all in the awating time table and save
+            int doctorId = -1;
+            double[] averageOfTime = {0, 0, 0, 0, 0, 0};
+            int[] counttheAppointments = {0, 0, 0, 0, 0, 0};
+            ZoneId defaultZoneId = ZoneId.systemDefault();
+            for (Appointment appointment : appointments) {
+//                System.out.println("going in for:"+ appointment.getClinic().getCounter());
+                LocalDate localDate = appointment.getDate();
+                Calendar c = Calendar.getInstance();
+                c.setTime(Date.from(localDate.atStartOfDay(defaultZoneId).toInstant()));
+                int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+                //System.out.println( "asdas"+appointment.getEmployee().getRole()); we dont get appointment so its allways 0
+//                System.out.println("appointment:  " + appointment.getAppointment_id());
+//                System.out.println("actual time:  " + appointment.getActual_time());
+//                System.out.println(" time:  " + appointment.getTime());
+               // if ((appointment.getActual_time() != null) && (appointment.getTime() != null)) {
+
+                    int CurrentWaitingTime = (int) MINUTES.between(appointment.getTime(),appointment.getActual_time());
+                    if ((doctorId == appointment.getEmployee().getUserId()) && (appointments.indexOf(appointment) != (appointments.size()-1))) {
+                        //while we are on the same doctor
+                        doctorId = appointment.getEmployee().getUserId();
+                        averageOfTime[dayOfWeek - 1] += CurrentWaitingTime;
+                        counttheAppointments[dayOfWeek - 1]++;
+                    } else if ((doctorId == -1)&&(appointments.indexOf(appointment) != (appointments.size()-1))) {//do the first time
+                        doctorId = appointment.getEmployee().getUserId();
+                        averageOfTime[dayOfWeek - 1] = CurrentWaitingTime;
+                        counttheAppointments[dayOfWeek - 1] = 1;
+                        System.out.println("adsssssss"+appointments.indexOf(appointment));
+                        System.out.println("size"+appointments.size());
+                    } else {//do what happened each time we get to new doctor
+                        if ((appointments.indexOf(appointment) == (appointments.size()-1))) {
+                            averageOfTime[dayOfWeek - 1] += CurrentWaitingTime;
+                            counttheAppointments[dayOfWeek - 1]++;
+                        }
+                        for (int j = 0; j < 6; j++) {
+                            if(counttheAppointments[j]!=0)
+                            averageOfTime[j] = averageOfTime[j] / counttheAppointments[j];
+                            System.out.println("time waitint:"+ averageOfTime[j]);
+                        }
+                        //here we need to insert everything we want into the awatingtimerep raw
+                        AwaitingTimeRep ReadyReport = new AwaitingTimeRep(appointment.getEmployee().getFirstName() + " " + appointment.getEmployee().getLastName(),clinic, averageOfTime[0], averageOfTime[1], averageOfTime[2], averageOfTime[3], averageOfTime[4], averageOfTime[5], counttheAppointments[0], counttheAppointments[1], counttheAppointments[2], counttheAppointments[3], counttheAppointments[4], counttheAppointments[5]);
+                        session.save(ReadyReport);
+                        session.flush();
+                        if ((appointments.indexOf(appointment) != (appointments.size()-1))) {
+                            for (int j = 0; j < 6; j++) {
+                                if (j == (dayOfWeek - 1)) {
+                                    averageOfTime[dayOfWeek - 1] = CurrentWaitingTime;
+                                    counttheAppointments[dayOfWeek - 1] = 1;
+                                } else {
+                                    averageOfTime[dayOfWeek - 1] = 0;
+                                    counttheAppointments[dayOfWeek - 1] = 0;
+                                }
+                            }
+                        }
+                        doctorId = appointment.getEmployee().getUserId();
+                    }
+                //}
+            }
+    }
     public static void main(String[] args) {
         try {
             SessionFactory sessionFactory = getSessionFactory();
@@ -967,6 +1275,7 @@ public class App {
             initPatientsTable();
             initAppointmentsTable();
             initServicesTable();
+           initReports();
             session.getTransaction().commit(); // Save everything.
         } catch (Exception exception) {
             if (session != null) {
