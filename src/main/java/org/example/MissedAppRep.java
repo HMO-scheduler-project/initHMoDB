@@ -26,6 +26,8 @@ public class MissedAppRep implements Serializable  {
     private int CovidTest;
     @Column(name = "Nurse_Care")
     private int NurseCare;
+    @Column(name = "Special_Doctor")
+    private int Special_Doctor;
     @OneToOne( targetEntity = Clinic.class )
     private Clinic Clinic;
 
@@ -40,7 +42,7 @@ public class MissedAppRep implements Serializable  {
         Clinic = clinic;
     }
 
-    public MissedAppRep(Clinic clinic,int familyDoctorPatientNumber, int pediatricianPatientNumber, int vaccineAppointment, int labResults, int covidTest, int nurseCare) {
+    public MissedAppRep(Clinic clinic,int familyDoctorPatientNumber, int pediatricianPatientNumber, int vaccineAppointment, int labResults, int covidTest, int nurseCare,int specialdoctor) {
         FamilyDoctorPatientNumber = familyDoctorPatientNumber;
         PediatricianPatientNumber = pediatricianPatientNumber;
         VaccineAppointment = vaccineAppointment;
@@ -48,6 +50,7 @@ public class MissedAppRep implements Serializable  {
         CovidTest = covidTest;
         NurseCare = nurseCare;
         this.Clinic=clinic;
+        Special_Doctor= specialdoctor;
     }
 
     public MissedAppRep(Clinic clinic, HMO_Manager hmo_manager) {

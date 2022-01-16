@@ -1067,7 +1067,7 @@ public class App {
             int[] nurse_Care = {0, 0, 0, 0, 0, 0};
             int[] pediatrician = {0, 0, 0, 0, 0, 0};
             int[] vaccine_Appointments = {0, 0, 0, 0, 0, 0};
-
+            int[] Special_doctor = {0, 0, 0, 0, 0, 0};
             ZoneId defaultZoneId = ZoneId.systemDefault();
             for (Appointment appointment : appointments) {
                 LocalDate localDate = appointment.getDate();
@@ -1102,17 +1102,19 @@ public class App {
                     covid_Test[dayOfWeek - 1]++;
                 if (appointment.getEmployee().getRole().equals("Covid 19 vaccine appointment"))
                     vaccine_Appointments[dayOfWeek - 1]++;
-
+                if (appointment.getEmployee() instanceof SpecialDoctor){
+                    Special_doctor[dayOfWeek - 1]++;
+                }
             }
 
 
             ServicesTypeRep[] ReadyReport = new ServicesTypeRep[6];
-            ReadyReport[0] = new ServicesTypeRep("Sunday", familyDoctor[0], pediatrician[0], vaccine_Appointments[0], lab_Test_Appointments[0], covid_Test[0], nurse_Care[0],clinic);
-            ReadyReport[1] = new ServicesTypeRep("Monday", familyDoctor[1], pediatrician[1], vaccine_Appointments[1], lab_Test_Appointments[1], covid_Test[1], nurse_Care[1],clinic);
-            ReadyReport[2] = new ServicesTypeRep("Tuesday", familyDoctor[2], pediatrician[2], vaccine_Appointments[2], lab_Test_Appointments[2], covid_Test[2], nurse_Care[2],clinic);
-            ReadyReport[3] = new ServicesTypeRep("Wednesday", familyDoctor[3], pediatrician[3], vaccine_Appointments[3], lab_Test_Appointments[3], covid_Test[3], nurse_Care[3],clinic);
-            ReadyReport[4] = new ServicesTypeRep("Thursday", familyDoctor[4], pediatrician[4], vaccine_Appointments[4], lab_Test_Appointments[4], covid_Test[4], nurse_Care[4],clinic);
-            ReadyReport[5] = new ServicesTypeRep("Friday", familyDoctor[5], pediatrician[5], vaccine_Appointments[5], lab_Test_Appointments[5], covid_Test[5], nurse_Care[5],clinic);
+            ReadyReport[0] = new ServicesTypeRep("Sunday", familyDoctor[0], pediatrician[0], vaccine_Appointments[0], lab_Test_Appointments[0], covid_Test[0], nurse_Care[0],Special_doctor[0],clinic);
+            ReadyReport[1] = new ServicesTypeRep("Monday", familyDoctor[1], pediatrician[1], vaccine_Appointments[1], lab_Test_Appointments[1], covid_Test[1], nurse_Care[1],Special_doctor[1],clinic);
+            ReadyReport[2] = new ServicesTypeRep("Tuesday", familyDoctor[2], pediatrician[2], vaccine_Appointments[2], lab_Test_Appointments[2], covid_Test[2], nurse_Care[2],Special_doctor[2],clinic);
+            ReadyReport[3] = new ServicesTypeRep("Wednesday", familyDoctor[3], pediatrician[3], vaccine_Appointments[3], lab_Test_Appointments[3], covid_Test[3], nurse_Care[3],Special_doctor[3],clinic);
+            ReadyReport[4] = new ServicesTypeRep("Thursday", familyDoctor[4], pediatrician[4], vaccine_Appointments[4], lab_Test_Appointments[4], covid_Test[4], nurse_Care[4],Special_doctor[4],clinic);
+            ReadyReport[5] = new ServicesTypeRep("Friday", familyDoctor[5], pediatrician[5], vaccine_Appointments[5], lab_Test_Appointments[5], covid_Test[5], nurse_Care[5],Special_doctor[5],clinic);
 
 
             //= new []ServicesTypeRep("Sunday", familyDoctor, pediatrician, vaccine_Appointments, lab_Test_Appointments, covid_Test, nurse_Care);
@@ -1152,26 +1154,44 @@ public class App {
             int nurse_Care = 0;
             int pediatrician = 0;
             int vaccine_Appointments = 0;
-
+            int Special_doctor = 0;
+//            if(user instanceof HMO_Manager)
+//            {
+//                msg.setUserType("HMO_Manager");
+//                user.setLoggedIn(true);
+//                msg.setStatus("logged in");
+//                msg.setUser(user);
+//            }else if (user instanceof Manager) {
+//                msg.setUserType("Manager");
+//                user.setLoggedIn(true);
+//                msg.setStatus("logged in");
+//                msg.setUser(user);
 
             for (Appointment appointment : appointments) {
 //                System.out.println(appointment.getType()+"1");
 //                System.out.println(appointment.getEmployee()+"1");
 
+               // System.out.println(getUserByUsername(appointment.getEmployee().getUsername()+"adsssss"));
+               // System.out.println((getUserByUsername(String.valueOf(getUserByUsername(appointment.getEmployee().getUsername()) instanceof SpecialDoctor))));
                 if ((appointment.getType().equals("Doctor appointment")) && (appointment.getEmployee().getRole() == "pediatrician"))
                     pediatrician++;
-                if ((appointment.getType().equals("Doctor appointment")) && (appointment.getEmployee().getRole() == "family_doctor"))
+                else if ((appointment.getType().equals("Doctor appointment")) && (appointment.getEmployee().getRole() == "family_doctor"))
                     familyDoctor++;
-                if ((appointment.getType().equals("Lab appointment")))
+                else if ((appointment.getType().equals("Lab appointment")))
                     lab_Test_Appointments++;
-                if ((appointment.getType().equals("Nurse appointment")))
+                else if ((appointment.getType().equals("Nurse appointment")))
                     nurse_Care++;
-                if ((appointment.getType().equals("Covid test appointment")))
+                else if ((appointment.getType().equals("Covid test appointment")))
                     covid_Test++;
-                if (appointment.getEmployee().getRole().equals("Covid 19 vaccine appointment"))
+                else if (appointment.getEmployee().getRole().equals("Covid 19 vaccine appointment"))
                     vaccine_Appointments++;
+                if (appointment.getEmployee() instanceof SpecialDoctor){
+                    Special_doctor++;
+                }
+//                else if (getUserByUsername(appointment.getEmployee().getUsername()) instanceof SpecialDoctor)
+//                    Special_doctor++;
             }
-            MissedAppRep ReadyReport = new MissedAppRep(clinic,familyDoctor, pediatrician, vaccine_Appointments, lab_Test_Appointments, covid_Test, nurse_Care);
+            MissedAppRep ReadyReport = new MissedAppRep(clinic,familyDoctor, pediatrician, vaccine_Appointments, lab_Test_Appointments, covid_Test, nurse_Care,Special_doctor);
             session.save(ReadyReport);
             session.flush();
 
@@ -1326,8 +1346,16 @@ public class App {
                 doctorId = appointment.getEmployee().getUserId();
                     }
 
-            }
 
+            }
+    public static User getUserByUsername(String username) {
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<User> query = builder.createQuery(User.class);
+        Root<User> root = query.from(User.class);
+        query.select(root);
+        query.where(builder.equal(root.get("username"), username));
+        return session.createQuery(query).getSingleResult();
+    }
     public static void main(String[] args) {
         try {
             SessionFactory sessionFactory = getSessionFactory();
