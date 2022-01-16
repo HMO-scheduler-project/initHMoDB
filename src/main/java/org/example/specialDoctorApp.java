@@ -21,6 +21,13 @@ public class specialDoctorApp extends doctorApp {
         this.type= doctor.role+" appointment";
     }
 
+    public specialDoctorApp(LocalTime time, LocalTime actual_time, boolean arrived, LocalDate date, Clinic clinic, Patient patient, SpecialDoctor doctor) {
+        super(time, actual_time, arrived, date, clinic, patient,doctor);
+        this.doctor = doctor;
+        this.employee= doctor;
+        this.type= doctor.role+" appointment";
+    }
+
 
     public int getDuration(){
         return 20;
