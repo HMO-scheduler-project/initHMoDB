@@ -21,4 +21,9 @@ Covid19VaccineApp extends LabApp implements Serializable {
     public int getDuration() {
         return 10;
     }
+
+
+    public Covid19VaccineApp(java.time.LocalTime time, java.time.LocalTime actual_time, boolean arrived, java.time.LocalDate date, Clinic clinic, org.example.Patient patient, LabWorker worker) {
+        super(time, actual_time, arrived, date, clinic, "Covid 19 vaccine appointment", patient, worker);
+    }
 }

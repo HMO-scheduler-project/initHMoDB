@@ -22,6 +22,17 @@ public class LabApp extends Appointment {
         this.type="Lab appointment";
     }
 
+    public LabApp(  LocalTime time, LocalTime actual_time, boolean arrived, LocalDate date, Clinic clinic, Employee employee, String type,Patient patient, LabWorker worker){
+        super(time, actual_time,arrived,date,clinic,employee,type,patient);
+        this.labworker = worker;
+        this.type="Lab appointment";
+    }
+    public LabApp(  LocalTime time, LocalTime actual_time, boolean arrived, LocalDate date, Clinic clinic, String type,Patient patient, LabWorker worker){
+        super(time, actual_time,arrived,date,clinic,type,patient);
+        this.labworker = worker;
+        this.type="Lab appointment";
+    }
+
     public LabWorker getLabworker() {
         return labworker;
     }

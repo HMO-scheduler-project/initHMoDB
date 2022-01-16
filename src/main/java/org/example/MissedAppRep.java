@@ -1,14 +1,19 @@
-package org.example.Reports;
+package org.example;
 
 import org.example.Clinic;
 import org.example.HMO_Manager;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-public class MissedAppRep extends WeeklyReport {
+public class MissedAppRep implements Serializable  {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected int id;
+    @ManyToOne( targetEntity = HMO_Manager.class )
+    protected HMO_Manager Hmo_Manager;
     @Column(name = "FamilyDoctor")
     private int FamilyDoctorPatientNumber;
     @Column(name = "Pediatrician")
@@ -21,19 +26,33 @@ public class MissedAppRep extends WeeklyReport {
     private int CovidTest;
     @Column(name = "Nurse_Care")
     private int NurseCare;
+    @OneToOne( targetEntity = Clinic.class )
+    private Clinic Clinic;
 
-    public MissedAppRep(Clinic clinic, LocalDate date, HMO_Manager hmo_manager,int familyDoctorPatientNumber, int pediatricianPatientNumber, int vaccineAppointment, int labResults, int covidTest, int nurseCare) {
-        super(clinic,date,hmo_manager);
+    public MissedAppRep(HMO_Manager hmo_Manager, int familyDoctorPatientNumber, int pediatricianPatientNumber, int vaccineAppointment, int labResults, int covidTest, int nurseCare, Clinic clinic) {
+        Hmo_Manager = hmo_Manager;
         FamilyDoctorPatientNumber = familyDoctorPatientNumber;
         PediatricianPatientNumber = pediatricianPatientNumber;
         VaccineAppointment = vaccineAppointment;
         LabResults = labResults;
         CovidTest = covidTest;
         NurseCare = nurseCare;
+        Clinic = clinic;
     }
 
-    public MissedAppRep(Clinic clinic, LocalDate date, HMO_Manager hmo_manager) {
-        super(clinic,date,hmo_manager);
+    public MissedAppRep(Clinic clinic,int familyDoctorPatientNumber, int pediatricianPatientNumber, int vaccineAppointment, int labResults, int covidTest, int nurseCare) {
+        FamilyDoctorPatientNumber = familyDoctorPatientNumber;
+        PediatricianPatientNumber = pediatricianPatientNumber;
+        VaccineAppointment = vaccineAppointment;
+        LabResults = labResults;
+        CovidTest = covidTest;
+        NurseCare = nurseCare;
+        this.Clinic=clinic;
+    }
+
+    public MissedAppRep(Clinic clinic, HMO_Manager hmo_manager) {
+        Hmo_Manager = hmo_manager;
+        Clinic = clinic;
         FamilyDoctorPatientNumber=0;
         PediatricianPatientNumber=0;
         VaccineAppointment=0;
@@ -46,6 +65,21 @@ public class MissedAppRep extends WeeklyReport {
 
     }
 
+    public HMO_Manager getHmo_Manager() {
+        return Hmo_Manager;
+    }
+
+    public void setHmo_Manager(HMO_Manager hmo_Manager) {
+        Hmo_Manager = hmo_Manager;
+    }
+
+    public Clinic getClinic() {
+        return Clinic;
+    }
+
+    public void setClinic(Clinic clinic) {
+        Clinic = clinic;
+    }
 
     public int getFamilyDoctorPatientNumber() {
         return FamilyDoctorPatientNumber;

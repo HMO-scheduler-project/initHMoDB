@@ -20,4 +20,9 @@ public class doctorApp  extends Appointment{
 
     }
 
+    public doctorApp(LocalTime time, LocalTime actual_time, boolean arrived, LocalDate date, Clinic clinic, Patient patient, Doctor doctor) {
+        super(time, actual_time, arrived, date, clinic, "Doctor appointment", patient);
+        this.doctor = doctor;
+        this.employee= doctor;
+    }
 }
