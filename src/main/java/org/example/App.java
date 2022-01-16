@@ -1233,8 +1233,6 @@ public class App {
             double[] averageOfTime = {0, 0, 0, 0, 0, 0};
             int[] counttheAppointments = {0, 0, 0, 0, 0, 0};
             ZoneId defaultZoneId = ZoneId.systemDefault();
-            String CurUsername=null;
-
             for (Appointment appointment : appointments) {
 //                System.out.println("going in for:"+ appointment.getClinic().getCounter());
                 LocalDate localDate = appointment.getDate();
