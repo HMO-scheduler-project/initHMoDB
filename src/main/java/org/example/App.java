@@ -58,6 +58,7 @@ public class App {
         configuration.addAnnotatedClass(specialDoctorApp.class);
         configuration.addAnnotatedClass(User.class);
         configuration.addAnnotatedClass(ClinicServices.class);
+//        configuration.addAnnotatedClass(MessageToManager.class);
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties())
                 .build();
         return configuration.buildSessionFactory(serviceRegistry);
@@ -65,18 +66,18 @@ public class App {
 
 
     private static void initEmployeesTable() throws Exception {
-        // create instance of Random class for testing(always logged in)
+        // create instance of Random class
         Random rand = new Random();
         Clinic clinic;
         String card_num = "111000";
-        HMO_Manager employee1122 = new HMO_Manager("username", "password", "name", "lastname", card_num, "email@good_health.com", "054-1234567", "Denia, Neve Shaanan, Hadar, Nesher, Carmel, Romema", null, 1, LocalTime.parse("09:00:00"), LocalTime.parse("17:00:00"),true);
-//        List<Clinic> clinicList = getAllClinics();
-//        employee1.setManaging_clinics(clinicList);
-        session.save(employee1122);
-//        for(Clinic c: clinicList){
-//            c.setManager(employee1);
-//            session.save(c);
-//        }
+//        HMO_Manager employee1122 = new HMO_Manager("username", "password", "name", "lastname", card_num, "email@good_health.com", "054-1234567", "Denia, Neve Shaanan, Hadar, Nesher, Carmel, Romema", null, 1, LocalTime.parse("09:00:00"), LocalTime.parse("17:00:00"));
+////        List<Clinic> clinicList = getAllClinics();
+////        employee1.setManaging_clinics(clinicList);
+//        session.save(employee1122);
+////        for(Clinic c: clinicList){
+////            c.setManager(employee1);
+////            session.save(c);
+////        }
 
 
         // create instance of Random class
@@ -1009,6 +1010,22 @@ public class App {
 
     }
 
+//    public static void initMessagesToManager(){
+//        MessageToManager msg = new MessageToManager("Nathan Dadon","Valeria Silverman","vacation request","Hi Valeria\nI need to go on vacation on 24.2.22.\nThanks in advance\nNathan Dadon");
+//        session.save(msg);
+//        msg = new MessageToManager("Adi Levi","Valeria Silverman","vacation request","Hi Valeria\nI need to go on vacation between 13.2 till 14.2.\nThanks in advance and have a nice day\nAdi Levi");
+//        session.save(msg);
+//        msg = new MessageToManager("Elinor Peretz","Valeria Silverman","Leaving early on next Wednesday","Hi Valeria\nI need to leave early on next wednesday 26.2.2022 due to PTA meeting.\nThanks in advance and have a nice day\nElinor Peretz");
+//        session.save(msg);
+//        msg = new MessageToManager("Amit Bachar","Ruth Cohen","Sick days","Hi Ruth\nI was out sick from 12-14.2.2022.I left the sickness confirmation at the office.\nPlease report those days in the system.\nThanks in advance\nAmit Bachar");
+//        session.save(msg);
+//        msg = new MessageToManager("Shahar Lev","Ruth Cohen","Vacation request","Hi Ruth\nI need to go on vacation between 13-15.2.22.\nPlease approve my request.\nThanks in advance and have a nice day\nShahar Lev");
+//        session.save(msg);
+//        msg = new MessageToManager("Anna Rodensky","Ruth Cohen","Inventory","Dear Ruth\nAs you are well aware we had an inventory yesterday.\nWe need to order more gloves,test tubes and septol.\nThanks in advance\nAnna Rodensky");
+//        session.save(msg);
+//    }
+
+
     public static LabWorker getLabWorkerByUsername(String username) {
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<LabWorker> query = builder.createQuery(LabWorker.class);
@@ -1018,27 +1035,18 @@ public class App {
         return session.createQuery(query).getSingleResult();
     }
     private static void initReports() {
-
-//        try {
-//            SessionFactory sessionFactory = Main.getSessionFactory();
-//            Main.session = sessionFactory.openSession();
-//            Main.session.beginTransaction();
-
-        // CriteriaBuilder builder = Main.session.getCriteriaBuilder();
-        // CriteriaQuery<Clinic> query = builder.createQuery(Clinic.class);
-        //  query.from(Clinic.class);
         List<Clinic> ClinicList = getAllClinicsFromDB();
-        LocalDate Saturday=GetLastSaturday();
-        LocalDate Sunday=GetLastSunday(Saturday);
+        LocalDate Saturday = GetLastSaturday();
+        LocalDate Sunday = GetLastSunday(Saturday);
         // List<Clinic> ClinicList = Main.session.createQuery(query).getResultList();
         ClearAwaitingTimeReport();
         ClearMissedAppReport();
         ClearServicesTypeReport();
-        System.out.println("Getting Report Between the dates:"+Sunday+"And"+Saturday );
+        System.out.println("Getting Report Between the dates:" + Sunday + "And" + Saturday);
         for (Clinic clinic : ClinicList) {
-            CreateMissedAppRepForClinic(clinic,Sunday,Saturday);
-            CreateServicesTypeReportForClinic(clinic,Sunday,Saturday);
-            CreateAwaitingTimeRepForClinic(clinic,Sunday,Saturday);
+            CreateMissedAppRepForClinic(clinic, Sunday, Saturday);
+            CreateServicesTypeReportForClinic(clinic, Sunday, Saturday);
+            CreateAwaitingTimeRepForClinic(clinic, Sunday, Saturday);
         }
 //            Main.session.getTransaction().commit(); // Save everything.
 //        } catch (Exception exception) {
@@ -1436,6 +1444,7 @@ public class App {
             initAppointmentsTable();
             initServicesTable();
             initReports();
+//            initMessagesToManager();
             session.getTransaction().commit(); // Save everything.
         } catch (Exception exception) {
             if (session != null) {
