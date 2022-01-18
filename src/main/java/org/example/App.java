@@ -988,6 +988,12 @@ public class App {
         sdoc = getSpecialDoctor(42);
         app20 = new specialDoctorApp(LocalTime.parse("13:00"),LocalTime.parse("13:10"),true, LocalDate.parse("2022-01-12"), getClinic("Hadar"), currPat, sdoc);
         session.save(app20);
+        app20 = new specialDoctorApp(LocalTime.parse("13:50"),LocalTime.parse("14:10"),true, LocalDate.parse("2022-01-12"), getClinic("Hadar"), currPat, sdoc);
+        session.save(app20);
+        app20 = new specialDoctorApp(LocalTime.parse("13:00"),LocalTime.parse("13:10"),true, LocalDate.parse("2022-01-13"), getClinic("Hadar"), currPat, sdoc);
+        session.save(app20);
+        app20 = new specialDoctorApp(LocalTime.parse("13:50"),LocalTime.parse("14:10"),true, LocalDate.parse("2022-01-13"), getClinic("Hadar"), currPat, sdoc);
+        session.save(app20);
 
     }
 
@@ -1009,6 +1015,26 @@ public class App {
         ClearAwaitingTimeReport();
         ClearMissedAppReport();
         ClearServicesTypeReport();
+
+        ZoneId defaultZoneId1 = ZoneId.systemDefault();
+        LocalDate today = LocalDate.now();
+        Calendar c1 = Calendar.getInstance();
+        c1.setTime(Date.from(today.atStartOfDay(defaultZoneId1).toInstant()));
+        ///first get today's date and sundays date
+        // LocalDate nextSunday = today.with(next(SUNDAY));
+        LocalDate thisPastSunday = today.with(previous(SUNDAY));
+        LocalDate thisPastSaturday = today.with(previous(SATURDAY));
+        //makeing today into the right saturday
+        Calendar c8 = Calendar.getInstance();
+        c8.setTime(Date.from(today.atStartOfDay(defaultZoneId1).toInstant()));
+        int dayOfWeek8 = c8.get(Calendar.DAY_OF_WEEK);
+        if(dayOfWeek8<7)
+            today=thisPastSaturday;
+
+        System.out.println("Getting Report Between the dates:"+today+"And"+thisPastSunday );
+        thisPastSunday = today.with(previous(SUNDAY));
+        System.out.println("Getting Report Between the dates:"+today+"And"+thisPastSunday );
+
         for (Clinic clinic : ClinicList) {
             System.out.println(clinic.getCounter());
 
@@ -1055,17 +1081,17 @@ public class App {
         //FOR EVERY CLINIC HOW MANY PATIENTS FOR EACH TYPE EACH DAY
         ///first get today's date and sundays date
         // LocalDate nextSunday = today.with(next(SUNDAY));
-        LocalDate thisPastSunday = today.with(previous(SUNDAY));
+
         LocalDate thisPastSaturday = today.with(previous(SATURDAY));
         //makeing today into the right saturday
 
         Calendar c8 = Calendar.getInstance();
         c8.setTime(Date.from(today.atStartOfDay(defaultZoneId1).toInstant()));
         int dayOfWeek8 = c8.get(Calendar.DAY_OF_WEEK);
-        if(dayOfWeek8!=6)
+        if(dayOfWeek8<7)
             today=thisPastSaturday;
 
-
+        LocalDate thisPastSunday = today.with(previous(SUNDAY));
 //gets the query with the needed data
         CriteriaBuilder builder1 = session.getCriteriaBuilder();
         CriteriaQuery<Appointment> query1 = builder1.createQuery(Appointment.class);
@@ -1163,7 +1189,7 @@ public class App {
         Calendar c1 = Calendar.getInstance();
         c1.setTime(Date.from(today.atStartOfDay(defaultZoneId1).toInstant()));
         // LocalDate nextSunday = today.with(next(SUNDAY));
-        LocalDate thisPastSunday = today.with(previous(SUNDAY));
+
         LocalDate thisPastSaturday = today.with(previous(SATURDAY));
         //makeing today into the right saturday
 
@@ -1173,8 +1199,9 @@ public class App {
 
         int dayOfWeek8 = c8.get(Calendar.DAY_OF_WEEK);
 
-        if(dayOfWeek8!=7)
+        if(dayOfWeek8<7)
             today=thisPastSaturday;
+        LocalDate thisPastSunday = today.with(previous(SUNDAY));
         //gets the query with the needed data
         CriteriaBuilder builder1 = session.getCriteriaBuilder();
         CriteriaQuery<Appointment> query1 = builder1.createQuery(Appointment.class);
@@ -1243,15 +1270,16 @@ public class App {
         Calendar c1 = Calendar.getInstance();
         c1.setTime(Date.from(today.atStartOfDay(defaultZoneId1).toInstant()));
         // LocalDate nextSunday = today.with(next(SUNDAY));
-        LocalDate thisPastSunday = today.with(previous(SUNDAY));
+
         LocalDate thisPastSaturday = today.with(previous(SATURDAY));
         //makeing today into the right saturday
 
         Calendar c8 = Calendar.getInstance();
         c8.setTime(Date.from(today.atStartOfDay(defaultZoneId1).toInstant()));
         int dayOfWeek8 = c8.get(Calendar.DAY_OF_WEEK);
-        if(dayOfWeek8!=6)
+        if(dayOfWeek8<7)
             today=thisPastSaturday;
+        LocalDate thisPastSunday = today.with(previous(SUNDAY));
 //gets the query with the needed data
         CriteriaBuilder builder1 = session.getCriteriaBuilder();
         CriteriaQuery<Appointment> query1 = builder1.createQuery(Appointment.class);
@@ -1409,7 +1437,7 @@ public class App {
             initPatientsTable();
             initAppointmentsTable();
             initServicesTable();
-           initReports();
+            initReports();
             session.getTransaction().commit(); // Save everything.
         } catch (Exception exception) {
             if (session != null) {
