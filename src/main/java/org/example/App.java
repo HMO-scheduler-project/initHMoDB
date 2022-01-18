@@ -65,10 +65,22 @@ public class App {
 
 
     private static void initEmployeesTable() throws Exception {
-        // create instance of Random class
+        // create instance of Random class for testing(always logged in)
         Random rand = new Random();
         Clinic clinic;
-        String card_num = String.valueOf(Math.abs(rand.nextInt()));
+        String card_num = "111000";
+        HMO_Manager employee1122 = new HMO_Manager("username", "password", "name", "lastname", card_num, "email@good_health.com", "054-1234567", "Denia, Neve Shaanan, Hadar, Nesher, Carmel, Romema", null, 1, LocalTime.parse("09:00:00"), LocalTime.parse("17:00:00"),true);
+//        List<Clinic> clinicList = getAllClinics();
+//        employee1.setManaging_clinics(clinicList);
+        session.save(employee1122);
+//        for(Clinic c: clinicList){
+//            c.setManager(employee1);
+//            session.save(c);
+//        }
+
+
+        // create instance of Random class
+         card_num = String.valueOf(Math.abs(rand.nextInt()));
         HMO_Manager employee1 = new HMO_Manager("AGoldstein", "AG1234", "Alex", "Goldstein", card_num, "agoldstein@good_health.com", "054-6329487", "Denia, Neve Shaanan, Hadar, Nesher, Carmel, Romema", null, 1, LocalTime.parse("09:00:00"), LocalTime.parse("17:00:00"));
 //        List<Clinic> clinicList = getAllClinics();
 //        employee1.setManaging_clinics(clinicList);
@@ -740,11 +752,11 @@ public class App {
 
         currPat = getPatient("DHolland");
         LabWorker labWorker = getLabWorkerByUsername("ABar");
-        Covid19VaccineApp covid19VaccineApp = new Covid19VaccineApp(LocalTime.parse("10:00"),null,false, LocalDate.parse("2022-01-09"), getClinic(labWorker.main_clinic), currPat, labWorker);
+        Covid19VaccineApp covid19VaccineApp = new Covid19VaccineApp(LocalTime.parse("10:00"),  LocalTime.parse("00:00"),false, LocalDate.parse("2022-01-09"), getClinic(labWorker.main_clinic), currPat, labWorker);
         session.save(covid19VaccineApp);
         covid19VaccineApp = new Covid19VaccineApp(LocalTime.parse("08:45"),LocalTime.parse("09:00"),true, LocalDate.parse("2022-01-11"), getClinic(labWorker.main_clinic), currPat, labWorker);
         currPat = getPatient("SGold");
-        covid19VaccineApp = new Covid19VaccineApp(LocalTime.parse("09:00"),null,false, LocalDate.parse("2022-01-09"), getClinic(labWorker.main_clinic), currPat, labWorker);
+        covid19VaccineApp = new Covid19VaccineApp(LocalTime.parse("09:00"), LocalTime.parse("00:00"),false, LocalDate.parse("2022-01-09"), getClinic(labWorker.main_clinic), currPat, labWorker);
         session.save(covid19VaccineApp);
         covid19VaccineApp = new Covid19VaccineApp(LocalTime.parse("08:45"),LocalTime.parse("09:00"),true, LocalDate.parse("2022-01-11"), getClinic(labWorker.main_clinic), currPat, labWorker);
         session.save(covid19VaccineApp);
@@ -773,7 +785,7 @@ public class App {
 
         currPat = getPatient("TShitrit");
         doc = currPat.getDoctor();
-        doctorApp app4 = new doctorApp(LocalTime.parse("14:00"),null,false, LocalDate.parse("2022-01-11"), currPat.getClinic(), currPat, doc);
+        doctorApp app4 = new doctorApp(LocalTime.parse("14:00"), LocalTime.parse("00:00"),false, LocalDate.parse("2022-01-11"), currPat.getClinic(), currPat, doc);
         doctorApp app44 = new doctorApp(LocalTime.parse("14:00"),LocalTime.parse("14:12"),true, LocalDate.parse("2022-01-13"), currPat.getClinic(), currPat, doc);
 
         session.save(app44);
@@ -890,7 +902,7 @@ public class App {
 
         currPat = getPatient("TShitrit");
         sdoc = getSpecialDoctor(38);
-        specialDoctorApp app13 = new specialDoctorApp(LocalTime.parse("12:00"),null,false, LocalDate.parse("2022-01-12"), getClinic("Carmel"), currPat, sdoc);
+        specialDoctorApp app13 = new specialDoctorApp(LocalTime.parse("12:00"), LocalTime.parse("00:00"),false, LocalDate.parse("2022-01-12"), getClinic("Carmel"), currPat, sdoc);
         session.save(app13);
 //        sdoc.addAppointment(app13);
 //        session.save(sdoc);

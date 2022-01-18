@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 public class HMO_Manager extends Manager {
-
+private boolean testAccount;
     @OneToMany(targetEntity = AwaitingTimeRep.class)
     protected List<AwaitingTimeRep> awaitingTimeRep = new ArrayList<AwaitingTimeRep>();
     @OneToMany(targetEntity = MissedAppRep.class)
@@ -19,8 +19,12 @@ public class HMO_Manager extends Manager {
 
     public HMO_Manager(String username, String password, String first_name, String last_name, String card, String Email, String phone_num, String main_clinic, List<Clinic> managing_clinics, int room_num, LocalTime start,LocalTime end) throws NoSuchAlgorithmException {
         super(username, password,first_name,last_name,"HMO_Manager",card,Email,phone_num,main_clinic,managing_clinics,room_num,start,end);
+        testAccount=false;
     }
-
+    public HMO_Manager(String username, String password, String first_name, String last_name, String card, String Email, String phone_num, String main_clinic, List<Clinic> managing_clinics, int room_num, LocalTime start,LocalTime end,boolean test) throws NoSuchAlgorithmException {
+        super(username, password,first_name,last_name,"HMO_Manager",card,Email,phone_num,main_clinic,managing_clinics,room_num,start,end);
+        testAccount=test;
+    }
     public HMO_Manager() {
         super();
     }
