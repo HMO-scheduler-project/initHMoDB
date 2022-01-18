@@ -32,6 +32,7 @@ public class Appointment implements Serializable {
         this.date = date;
         this.clinic = clinic;
         this.employee = employee;
+        this.actual_time=LocalTime.parse("00:00");
     }
     public Appointment(LocalTime time, LocalDate date, Clinic clinic, Patient patient,Employee employee) {
         this.time = time;
@@ -40,6 +41,7 @@ public class Appointment implements Serializable {
         this.patient = patient;
         this.employee = employee;
         this.arrived = false;
+        this.actual_time=LocalTime.parse("00:00");
     }
 
     public Appointment(LocalTime time, boolean arrived, LocalDate date, Employee employee) {
@@ -47,6 +49,8 @@ public class Appointment implements Serializable {
         this.arrived = arrived;
         this.date = date;
         this.employee = employee;
+        this.actual_time=LocalTime.parse("00:00");
+
     }
 
     public Appointment(LocalTime time, LocalTime actual_time, boolean arrived, LocalDate date, Clinic clinic, Employee employee, String type,Patient patient) {
@@ -58,6 +62,7 @@ public class Appointment implements Serializable {
         this.employee = employee;
         this.type = type;
         this.patient=patient;
+
     }
 
     public Appointment(LocalTime time, LocalTime actual_time, boolean arrived, LocalDate date, Clinic clinic, Employee employee) {
@@ -98,6 +103,7 @@ public class Appointment implements Serializable {
         this.date = date;
         this.employee = employee;
         this.type = type;
+        this.actual_time=LocalTime.parse("00:00");
     }
     public Appointment(Clinic clinic,int appointment_id, LocalTime time, boolean arrived, LocalDate date, Employee employee, String type) {
         this.clinic=clinic;
@@ -107,6 +113,7 @@ public class Appointment implements Serializable {
         this.date = date;
         this.employee = employee;
         this.type = type;
+        this.actual_time=LocalTime.parse("00:00");
     }
     public int getAppointment_id() {
         return appointment_id;
