@@ -1006,98 +1006,115 @@ public class App {
         return session.createQuery(query).getSingleResult();
     }
     private static void initReports() {
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<Clinic> query = builder.createQuery(Clinic.class);
-        query.from(Clinic.class);
-        List<Clinic> ClinicList = session.createQuery(query).getResultList();
 
+//        try {
+//            SessionFactory sessionFactory = Main.getSessionFactory();
+//            Main.session = sessionFactory.openSession();
+//            Main.session.beginTransaction();
 
+        // CriteriaBuilder builder = Main.session.getCriteriaBuilder();
+        // CriteriaQuery<Clinic> query = builder.createQuery(Clinic.class);
+        //  query.from(Clinic.class);
+        List<Clinic> ClinicList = getAllClinicsFromDB();
+        LocalDate Saturday=GetLastSaturday();
+        LocalDate Sunday=GetLastSunday(Saturday);
+        // List<Clinic> ClinicList = Main.session.createQuery(query).getResultList();
         ClearAwaitingTimeReport();
         ClearMissedAppReport();
         ClearServicesTypeReport();
-
-        ZoneId defaultZoneId1 = ZoneId.systemDefault();
-        LocalDate today = LocalDate.now();
-        Calendar c1 = Calendar.getInstance();
-        c1.setTime(Date.from(today.atStartOfDay(defaultZoneId1).toInstant()));
-        ///first get today's date and sundays date
-        // LocalDate nextSunday = today.with(next(SUNDAY));
-        LocalDate thisPastSunday = today.with(previous(SUNDAY));
-        LocalDate thisPastSaturday = today.with(previous(SATURDAY));
-        //makeing today into the right saturday
-        Calendar c8 = Calendar.getInstance();
-        c8.setTime(Date.from(today.atStartOfDay(defaultZoneId1).toInstant()));
-        int dayOfWeek8 = c8.get(Calendar.DAY_OF_WEEK);
-        if(dayOfWeek8<7)
-            today=thisPastSaturday;
-
-        System.out.println("Getting Report Between the dates:"+today+"And"+thisPastSunday );
-        thisPastSunday = today.with(previous(SUNDAY));
-        System.out.println("Getting Report Between the dates:"+today+"And"+thisPastSunday );
-
+        System.out.println("Getting Report Between the dates:"+Sunday+"And"+Saturday );
         for (Clinic clinic : ClinicList) {
-            System.out.println(clinic.getCounter());
-
-            CreateServicesTypeReportForClinic(clinic);
-            CreateAwaitingTimeRepForClinic(clinic);
-            CreateMissedAppRepForClinic(clinic);
-
-
+            CreateMissedAppRepForClinic(clinic,Sunday,Saturday);
+            CreateServicesTypeReportForClinic(clinic,Sunday,Saturday);
+            CreateAwaitingTimeRepForClinic(clinic,Sunday,Saturday);
         }
+//            Main.session.getTransaction().commit(); // Save everything.
+//        } catch (Exception exception) {
+//            if (Main.session != null) {
+//                Main.session.getTransaction().rollback();
+//            }
+//            System.err.println("An error occurred, changes have been rolled back.");
+//            exception.printStackTrace();
+//        } finally {
+//            if (Main.session != null) {
+//                Main.session.close();
+//            }
+//        }
+
+
+
+    }
+    public static List<Clinic> getAllClinicsFromDB() {
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Clinic> query = builder.createQuery(Clinic.class);
+        query.from(Clinic.class);
+        return session.createQuery(query).getResultList();
+    }
+    public static void ClearServicesTypeReport() {
+        //clear the report table
+// session.createQuery("delete from ServicesTypeRep").executeUpdate();
+
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<ServicesTypeRep> query = builder.createQuery(ServicesTypeRep.class);
+        query.from(ServicesTypeRep.class);
+        int i=1;
+        List<ServicesTypeRep> servicesTypeRep= session.createQuery(query).getResultList();
+        for( ServicesTypeRep item : servicesTypeRep){
+            ;
+            session.delete(item);
+        }
+        session.flush();
     }
 
-        public static int ClearServicesTypeReport(){
-            //clear the report table
-            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-            CriteriaDelete<ServicesTypeRep> query = criteriaBuilder.createCriteriaDelete(ServicesTypeRep.class);
-            Root<ServicesTypeRep> root = query.from(ServicesTypeRep.class);
-            int result = session.createQuery(query).executeUpdate();
-            return result;
+    public static void ClearMissedAppReport() {
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<MissedAppRep> query = builder.createQuery(MissedAppRep.class);
+        query.from(MissedAppRep.class);
+        int i=1;
+        List<MissedAppRep> missedAppReps= session.createQuery(query).getResultList();
+        for( MissedAppRep item : missedAppReps){
+            session.delete(item);
         }
-        public static int ClearMissedAppReport(){
-            //clear the report table
-            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-            CriteriaDelete<MissedAppRep> query = criteriaBuilder.createCriteriaDelete(MissedAppRep.class);
-            Root<MissedAppRep> root = query.from(MissedAppRep.class);
-            int result = session.createQuery(query).executeUpdate();
-            return result;
+        session.flush();
+    }
+
+    public static void ClearAwaitingTimeReport() {
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<AwaitingTimeRep> query = builder.createQuery(AwaitingTimeRep.class);
+        query.from(AwaitingTimeRep.class);
+        int i=1;
+        List<AwaitingTimeRep> awaitingTimeRep= session.createQuery(query).getResultList();
+        for( AwaitingTimeRep item : awaitingTimeRep){
+            session.delete(item);
         }
-        public static int ClearAwaitingTimeReport(){
-            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-            CriteriaDelete<AwaitingTimeRep> query = criteriaBuilder.createCriteriaDelete(AwaitingTimeRep.class);
-            Root<AwaitingTimeRep> root = query.from(AwaitingTimeRep.class);
-            int result = session.createQuery(query).executeUpdate();
-            return result;
-
-        }
-
-
-    public static void CreateServicesTypeReportForClinic(Clinic clinic) {
-
-        ZoneId defaultZoneId1 = ZoneId.systemDefault();
+        session.flush();
+    }
+    public static LocalDate GetLastSaturday(){
+        ZoneId defaultZoneId = ZoneId.systemDefault();
         LocalDate today = LocalDate.now();
-        Calendar c1 = Calendar.getInstance();
-        c1.setTime(Date.from(today.atStartOfDay(defaultZoneId1).toInstant()));
-        //FOR EVERY CLINIC HOW MANY PATIENTS FOR EACH TYPE EACH DAY
-        ///first get today's date and sundays date
-        // LocalDate nextSunday = today.with(next(SUNDAY));
-
-        LocalDate thisPastSaturday = today.with(previous(SATURDAY));
-        //makeing today into the right saturday
-
-        Calendar c8 = Calendar.getInstance();
-        c8.setTime(Date.from(today.atStartOfDay(defaultZoneId1).toInstant()));
-        int dayOfWeek8 = c8.get(Calendar.DAY_OF_WEEK);
+        Calendar c = Calendar.getInstance();
+        ///first get today's date
+        // if todays date isn't saturday we need to get the saturday that's before today
+        c.setTime(Date.from(today.atStartOfDay(defaultZoneId).toInstant()));
+        int dayOfWeek8 = c.get(Calendar.DAY_OF_WEEK);
         if(dayOfWeek8<7)
-            today=thisPastSaturday;
+            return today.with(previous(SATURDAY));
+        return today;
 
-        LocalDate thisPastSunday = today.with(previous(SUNDAY));
+
+    }
+    public static LocalDate GetLastSunday(LocalDate Saturday){
+        return Saturday.with(previous(SUNDAY));
+    }
+    public static void CreateServicesTypeReportForClinic(Clinic clinic,LocalDate Sunday,LocalDate Saturday) {
+
+
 //gets the query with the needed data
         CriteriaBuilder builder1 = session.getCriteriaBuilder();
         CriteriaQuery<Appointment> query1 = builder1.createQuery(Appointment.class);
         Root<Appointment> root1 = query1.from(Appointment.class);
         query1.multiselect(root1.get("clinic"), root1.get("appointment_id"), root1.get("time"), root1.get("arrived"), root1.get("date"), root1.get("employee"), root1.get("type"));
-        query1.where(builder1.equal(root1.get("clinic"), clinic), builder1.equal(root1.get("arrived"), true), builder1.between(root1.<LocalDate>get("date"), thisPastSunday, today));
+        query1.where(builder1.equal(root1.get("clinic"), clinic), builder1.equal(root1.get("arrived"), true), builder1.between(root1.<LocalDate>get("date"), Sunday,Saturday ));
         query1.orderBy(builder1.asc(root1.get("date")));
         List<Appointment> appointments = session.createQuery(query1).getResultList();
 
@@ -1183,31 +1200,14 @@ public class App {
         session.flush();
     }
 
-    public static void CreateMissedAppRepForClinic(Clinic clinic) {
-        ZoneId defaultZoneId1 = ZoneId.systemDefault();
-        LocalDate today = LocalDate.now();
-        Calendar c1 = Calendar.getInstance();
-        c1.setTime(Date.from(today.atStartOfDay(defaultZoneId1).toInstant()));
-        // LocalDate nextSunday = today.with(next(SUNDAY));
+    public static void CreateMissedAppRepForClinic(Clinic clinic,LocalDate Sunday,LocalDate Saturday) {
 
-        LocalDate thisPastSaturday = today.with(previous(SATURDAY));
-        //makeing today into the right saturday
-
-        Calendar c8 = Calendar.getInstance();
-        c8.setTime(Date.from(today.atStartOfDay(defaultZoneId1).toInstant()));
-
-
-        int dayOfWeek8 = c8.get(Calendar.DAY_OF_WEEK);
-
-        if(dayOfWeek8<7)
-            today=thisPastSaturday;
-        LocalDate thisPastSunday = today.with(previous(SUNDAY));
         //gets the query with the needed data
         CriteriaBuilder builder1 = session.getCriteriaBuilder();
         CriteriaQuery<Appointment> query1 = builder1.createQuery(Appointment.class);
         Root<Appointment> root1 = query1.from(Appointment.class);
         query1.multiselect(root1.get("clinic"), root1.get("appointment_id"), root1.get("time"), root1.get("arrived"), root1.get("date"), root1.get("employee"), root1.get("type"));
-        query1.where(builder1.equal(root1.get("clinic"), clinic), builder1.equal(root1.get("arrived"), false), builder1.between(root1.<LocalDate>get("date"), thisPastSunday, today));
+        query1.where(builder1.equal(root1.get("clinic"), clinic), builder1.equal(root1.get("arrived"), false), builder1.between(root1.<LocalDate>get("date"), Sunday,Saturday ));
         //builder1.equal(root1.get("clinic_Num"), clinic.getNum())
         //employee_user_id
 
@@ -1264,29 +1264,15 @@ public class App {
 
     }
 
-    public static void CreateAwaitingTimeRepForClinic(Clinic clinic) {
-        ZoneId defaultZoneId1 = ZoneId.systemDefault();
-        LocalDate today = LocalDate.now();
-        Calendar c1 = Calendar.getInstance();
-        c1.setTime(Date.from(today.atStartOfDay(defaultZoneId1).toInstant()));
-        // LocalDate nextSunday = today.with(next(SUNDAY));
+    public static void CreateAwaitingTimeRepForClinic(Clinic clinic,LocalDate Sunday,LocalDate Saturday) {
 
-        LocalDate thisPastSaturday = today.with(previous(SATURDAY));
-        //makeing today into the right saturday
-
-        Calendar c8 = Calendar.getInstance();
-        c8.setTime(Date.from(today.atStartOfDay(defaultZoneId1).toInstant()));
-        int dayOfWeek8 = c8.get(Calendar.DAY_OF_WEEK);
-        if(dayOfWeek8<7)
-            today=thisPastSaturday;
-        LocalDate thisPastSunday = today.with(previous(SUNDAY));
 //gets the query with the needed data
         CriteriaBuilder builder1 = session.getCriteriaBuilder();
         CriteriaQuery<Appointment> query1 = builder1.createQuery(Appointment.class);
         Root<Appointment> root1 = query1.from(Appointment.class);
 
         query1.multiselect(root1.get("time"), root1.get("actual_time"), root1.get("arrived"), root1.get("date"), root1.get("clinic"), root1.get("employee"));
-        query1.where(builder1.equal(root1.get("clinic"), clinic), builder1.equal(root1.get("arrived"), true), builder1.between(root1.<LocalDate>get("date"), thisPastSunday, today));
+        query1.where(builder1.equal(root1.get("clinic"), clinic), builder1.equal(root1.get("arrived"), true), builder1.between(root1.<LocalDate>get("date"),Sunday,Saturday ));
         query1.orderBy(builder1.asc(root1.get("employee")));
         List<Appointment> appointments = session.createQuery(query1).getResultList();
 
