@@ -25,7 +25,6 @@ import static java.time.DayOfWeek.SUNDAY;
 import static java.time.temporal.ChronoUnit.MINUTES;
 import static java.time.temporal.TemporalAdjusters.previous;
 
-
 public class App {
     private static Session session;
 
@@ -63,7 +62,6 @@ public class App {
                 .build();
         return configuration.buildSessionFactory(serviceRegistry);
     }
-
 
     private static void initEmployeesTable() throws Exception {
         // create instance of Random class
@@ -765,8 +763,6 @@ public class App {
         currPat = getPatient("SGold");
         doc = currPat.getDoctor();
         doctorApp app2 = new doctorApp (LocalTime.parse("08:45"),LocalTime.parse("09:00"),true, LocalDate.parse("2022-01-11"), currPat.getClinic(), currPat, doc);
-
-
         session.save(app2);
 //        doc.addAppointment(app2);
 //        session.save(doc);
@@ -788,7 +784,6 @@ public class App {
         doc = currPat.getDoctor();
         doctorApp app4 = new doctorApp(LocalTime.parse("14:00"), LocalTime.parse("00:00"),false, LocalDate.parse("2022-01-11"), currPat.getClinic(), currPat, doc);
         doctorApp app44 = new doctorApp(LocalTime.parse("14:00"),LocalTime.parse("14:12"),true, LocalDate.parse("2022-01-13"), currPat.getClinic(), currPat, doc);
-
         session.save(app44);
         session.save(app4);
 //        doc.addAppointment(app4);
@@ -1008,8 +1003,111 @@ public class App {
         app20 = new specialDoctorApp(LocalTime.parse("13:50"),LocalTime.parse("14:10"),true, LocalDate.parse("2022-01-13"), getClinic("Hadar"), currPat, sdoc);
         session.save(app20);
 
-    }
 
+
+        //data for presentation-----------------------------------------------------------
+
+        doc = getDoctor(16);        //first doc
+        currPat = getPatient("TShitrit");
+        doctorApp app100 = new doctorApp(LocalTime.parse("14:00"),LocalTime.parse("14:12"),true, LocalDate.parse("2022-01-09"), currPat.getClinic(), currPat, doc);
+        doctorApp app101 = new doctorApp(LocalTime.parse("15:00"),LocalTime.parse("15:12"),true, LocalDate.parse("2022-01-11"), currPat.getClinic(), currPat, doc);
+        doctorApp app102 = new doctorApp(LocalTime.parse("16:00"),LocalTime.parse("16:12"),true, LocalDate.parse("2022-01-13"), currPat.getClinic(), currPat, doc);
+        session.save(app100);
+        session.save(app101);
+        session.save(app102);
+        currPat = getPatient("MRosen");
+        doctorApp app103 = new doctorApp(LocalTime.parse("11:00"),LocalTime.parse("11:07"),true, LocalDate.parse("2022-01-10"), currPat.getClinic(), currPat, doc);
+        doctorApp app104 = new doctorApp(LocalTime.parse("15:00"),LocalTime.parse("15:07"),true, LocalDate.parse("2022-01-12"), currPat.getClinic(), currPat, doc);
+        doctorApp app105 = new doctorApp(LocalTime.parse("09:00"),LocalTime.parse("09:07"),true, LocalDate.parse("2022-01-14"), currPat.getClinic(), currPat, doc);
+        session.save(app103);
+        session.save(app104);
+        session.save(app105);
+        currPat = getPatient("CLevi");
+        doctorApp app106 = new doctorApp(LocalTime.parse("10:00"),LocalTime.parse("10:16"),true, LocalDate.parse("2022-01-09"), currPat.getClinic(), currPat, doc);
+        doctorApp app107 = new doctorApp(LocalTime.parse("13:00"),LocalTime.parse("13:16"),true, LocalDate.parse("2022-01-11"), currPat.getClinic(), currPat, doc);
+        doctorApp app108 = new doctorApp(LocalTime.parse("12:00"),LocalTime.parse("12:16"),true, LocalDate.parse("2022-01-13"), currPat.getClinic(), currPat, doc);
+        session.save(app106);
+        session.save(app107);
+        session.save(app108);
+        currPat = getPatient("IMoskovitz");
+        doctorApp app109 = new doctorApp(LocalTime.parse("09:00"),LocalTime.parse("09:12"),true, LocalDate.parse("2022-01-10"), currPat.getClinic(), currPat, doc);
+        doctorApp app110 = new doctorApp(LocalTime.parse("15:00"),LocalTime.parse("15:12"),true, LocalDate.parse("2022-01-13"), currPat.getClinic(), currPat, doc);
+        doctorApp app111 = new doctorApp(LocalTime.parse("10:00"),LocalTime.parse("10:12"),true, LocalDate.parse("2022-01-14"), currPat.getClinic(), currPat, doc);
+        session.save(app109);
+        session.save(app110);
+        session.save(app111);
+        currPat = getPatient("SGold");
+        doctorApp app112 = new doctorApp(LocalTime.parse("13:00"),LocalTime.parse("13:05"),true, LocalDate.parse("2022-01-09"), currPat.getClinic(), currPat, doc);
+        doctorApp app113 = new doctorApp(LocalTime.parse("14:00"),LocalTime.parse("14:05"),true, LocalDate.parse("2022-01-11"), currPat.getClinic(), currPat, doc);
+        doctorApp app114 = new doctorApp(LocalTime.parse("11:00"),LocalTime.parse("11:05"),true, LocalDate.parse("2022-01-12"), currPat.getClinic(), currPat, doc);
+        session.save(app112);
+        session.save(app113);
+        session.save(app114);
+
+        doc = getDoctor(12);        //second doc
+        currPat = getPatient("TShitrit");
+        doctorApp app115 = new doctorApp(LocalTime.parse("14:00"),LocalTime.parse("14:12"),true, LocalDate.parse("2022-01-10"), currPat.getClinic(), currPat, doc);
+        doctorApp app116 = new doctorApp(LocalTime.parse("15:00"),LocalTime.parse("15:12"),true, LocalDate.parse("2022-01-12"), currPat.getClinic(), currPat, doc);
+        doctorApp app117 = new doctorApp(LocalTime.parse("16:00"),LocalTime.parse("16:12"),true, LocalDate.parse("2022-01-14"), currPat.getClinic(), currPat, doc);
+        session.save(app115);
+        session.save(app116);
+        session.save(app117);
+        currPat = getPatient("MRosen");
+        doctorApp app118 = new doctorApp(LocalTime.parse("11:00"),LocalTime.parse("11:07"),true, LocalDate.parse("2022-01-11"), currPat.getClinic(), currPat, doc);
+        doctorApp app119 = new doctorApp(LocalTime.parse("15:00"),LocalTime.parse("15:07"),true, LocalDate.parse("2022-01-13"), currPat.getClinic(), currPat, doc);
+        doctorApp app120 = new doctorApp(LocalTime.parse("09:00"),LocalTime.parse("09:07"),true, LocalDate.parse("2022-01-09"), currPat.getClinic(), currPat, doc);
+        session.save(app118);
+        session.save(app119);
+        session.save(app120);
+        currPat = getPatient("CLevi");
+        doctorApp app121 = new doctorApp(LocalTime.parse("10:00"),LocalTime.parse("10:16"),true, LocalDate.parse("2022-01-10"), currPat.getClinic(), currPat, doc);
+        doctorApp app122 = new doctorApp(LocalTime.parse("13:00"),LocalTime.parse("13:16"),true, LocalDate.parse("2022-01-12"), currPat.getClinic(), currPat, doc);
+        doctorApp app123 = new doctorApp(LocalTime.parse("12:00"),LocalTime.parse("12:16"),true, LocalDate.parse("2022-01-14"), currPat.getClinic(), currPat, doc);
+        session.save(app121);
+        session.save(app122);
+        session.save(app123);
+        currPat = getPatient("IMoskovitz");
+        doctorApp app124 = new doctorApp(LocalTime.parse("09:00"),LocalTime.parse("09:12"),true, LocalDate.parse("2022-01-11"), currPat.getClinic(), currPat, doc);
+        doctorApp app125 = new doctorApp(LocalTime.parse("15:00"),LocalTime.parse("15:12"),true, LocalDate.parse("2022-01-14"), currPat.getClinic(), currPat, doc);
+        doctorApp app126 = new doctorApp(LocalTime.parse("10:00"),LocalTime.parse("10:12"),true, LocalDate.parse("2022-01-09"), currPat.getClinic(), currPat, doc);
+        session.save(app124);
+        session.save(app125);
+        session.save(app126);
+        currPat = getPatient("SGold");
+        doctorApp app127 = new doctorApp(LocalTime.parse("13:00"),LocalTime.parse("13:05"),true, LocalDate.parse("2022-01-10"), currPat.getClinic(), currPat, doc);
+        doctorApp app128 = new doctorApp(LocalTime.parse("14:00"),LocalTime.parse("14:05"),true, LocalDate.parse("2022-01-12"), currPat.getClinic(), currPat, doc);
+        doctorApp app129 = new doctorApp(LocalTime.parse("11:00"),LocalTime.parse("11:05"),true, LocalDate.parse("2022-01-14"), currPat.getClinic(), currPat, doc);
+        session.save(app127);
+        session.save(app128);
+        session.save(app129);
+
+        doc = getDoctor(21);        //third nurse
+        currPat = getPatient("TShitrit");
+        doctorApp app130 = new doctorApp(LocalTime.parse("14:00"),LocalTime.parse("14:12"),true, LocalDate.parse("2022-01-11"), currPat.getClinic(), currPat, doc);
+        doctorApp app131 = new doctorApp(LocalTime.parse("15:00"),LocalTime.parse("15:12"),true, LocalDate.parse("2022-01-13"), currPat.getClinic(), currPat, doc);
+        doctorApp app132 = new doctorApp(LocalTime.parse("16:00"),LocalTime.parse("16:12"),true, LocalDate.parse("2022-01-09"), currPat.getClinic(), currPat, doc);
+        session.save(app130);
+        session.save(app131);
+        session.save(app132);
+        currPat = getPatient("MRosen");
+        doctorApp app133 = new doctorApp(LocalTime.parse("11:00"),LocalTime.parse("11:07"),true, LocalDate.parse("2022-01-12"), currPat.getClinic(), currPat, doc);
+        doctorApp app134 = new doctorApp(LocalTime.parse("15:00"),LocalTime.parse("15:07"),true, LocalDate.parse("2022-01-14"), currPat.getClinic(), currPat, doc);
+        doctorApp app135 = new doctorApp(LocalTime.parse("09:00"),LocalTime.parse("09:07"),true, LocalDate.parse("2022-01-10"), currPat.getClinic(), currPat, doc);
+        session.save(app133);
+        session.save(app134);
+        session.save(app135);
+        currPat = getPatient("CLevi");
+        doctorApp app136 = new doctorApp(LocalTime.parse("10:00"),LocalTime.parse("10:16"),true, LocalDate.parse("2022-01-11"), currPat.getClinic(), currPat, doc);
+        doctorApp app137 = new doctorApp(LocalTime.parse("13:00"),LocalTime.parse("13:16"),true, LocalDate.parse("2022-01-13"), currPat.getClinic(), currPat, doc);
+        doctorApp app138 = new doctorApp(LocalTime.parse("12:00"),LocalTime.parse("12:16"),true, LocalDate.parse("2022-01-09"), currPat.getClinic(), currPat, doc);
+        session.save(app136);
+        session.save(app137);
+        session.save(app138);
+
+
+
+
+    }
 //    public static void initMessagesToManager(){
 //        MessageToManager msg = new MessageToManager("Nathan Dadon","Valeria Silverman","vacation request","Hi Valeria\nI need to go on vacation on 24.2.22.\nThanks in advance\nNathan Dadon");
 //        session.save(msg);
@@ -1024,7 +1122,6 @@ public class App {
 //        msg = new MessageToManager("Anna Rodensky","Ruth Cohen","Inventory","Dear Ruth\nAs you are well aware we had an inventory yesterday.\nWe need to order more gloves,test tubes and septol.\nThanks in advance\nAnna Rodensky");
 //        session.save(msg);
 //    }
-
 
     public static LabWorker getLabWorkerByUsername(String username) {
         CriteriaBuilder builder = session.getCriteriaBuilder();
