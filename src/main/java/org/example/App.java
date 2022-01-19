@@ -97,10 +97,10 @@ public class App {
         session.update(clinic);
 
         card_num = String.valueOf(Math.abs(rand.nextInt()));
-        Manager employee3 = new Manager("MLevi", "ML1234", "Maya", "Levi", "clinic manager", card_num, "mlevi@good_health.com", "050-7481239", "Neve shaanan", null, 1, LocalTime.parse("09:00:00"), LocalTime.parse("17:00:00"));
+        Manager employee3 = new Manager("MLevi", "ML1234", "Maya", "Levi", "clinic manager", card_num, "mlevi@good_health.com", "050-7481239", "Neve Shaanan", null, 1, LocalTime.parse("09:00:00"), LocalTime.parse("17:00:00"));
 //        employee3.addManagingClinic(getClinic("Neve shaanan"));
         session.save(employee3);
-        clinic = getClinic("Neve shaanan");
+        clinic = getClinic("Neve Shaanan");
         clinic.setManager(employee3);
         session.update(clinic);
 
@@ -142,7 +142,7 @@ public class App {
         session.update(clinic);
 
         card_num = String.valueOf(Math.abs(rand.nextInt()));
-        Doctor employee9 = new Doctor("DShitrit", "DS1234", "Dor", "Shitrit", "family_doctor", card_num, "dshitrit@good_health.com", "050-7841528", "Neve shaanan", 4, LocalTime.parse("08:00:00"), LocalTime.parse("17:00:00"));
+        Doctor employee9 = new Doctor("DShitrit", "DS1234", "Dor", "Shitrit", "family_doctor", card_num, "dshitrit@good_health.com", "050-7841528", "Neve Shaanan", 4, LocalTime.parse("08:00:00"), LocalTime.parse("17:00:00"));
         session.save(employee9);
 
         card_num = String.valueOf(Math.abs(rand.nextInt()));
@@ -178,7 +178,7 @@ public class App {
         session.save(employee16);
 
         card_num = String.valueOf(Math.abs(rand.nextInt()));
-        Doctor employee17 = new Doctor("GNadler", "GN1234", "Gil", "Nadler", "pediatrician", card_num, "gnadler@good_health.com", "053-4695782", "Neve shaanan", 3, LocalTime.parse("07:00:00"), LocalTime.parse("19:00:00"));
+        Doctor employee17 = new Doctor("GNadler", "GN1234", "Gil", "Nadler", "pediatrician", card_num, "gnadler@good_health.com", "053-4695782", "Neve Shaanan", 3, LocalTime.parse("07:00:00"), LocalTime.parse("19:00:00"));
         session.save(employee17);
 
         card_num = String.valueOf(Math.abs(rand.nextInt()));
@@ -198,7 +198,7 @@ public class App {
         session.save(employee21);
 
         card_num = String.valueOf(Math.abs(rand.nextInt()));
-        Nurse employee22 = new Nurse("GShwartz", "GS1234", "Gal", "Shwartz", card_num, "gshwartz@good_health.com", "050-4657821", "Neve shaanan", null, 5, LocalTime.parse("07:00:00"), LocalTime.parse("20:00:00"));
+        Nurse employee22 = new Nurse("GShwartz", "GS1234", "Gal", "Shwartz", card_num, "gshwartz@good_health.com", "050-4657821", "Neve Shaanan", null, 5, LocalTime.parse("07:00:00"), LocalTime.parse("20:00:00"));
         session.save(employee22);
 
         card_num = String.valueOf(Math.abs(rand.nextInt()));
@@ -359,7 +359,7 @@ public class App {
         ClinicServices service1 = new ClinicServices("covid test", "Hadar", LocalTime.parse("07:00:00"), LocalTime.parse("17:00:00"), 2);
         session.save(service1);
         session.flush();
-        ClinicServices service2 = new ClinicServices("covid test", "Neve shaanan", LocalTime.parse("08:00:00"), LocalTime.parse("20:00:00"), 2);
+        ClinicServices service2 = new ClinicServices("covid test", "Neve Shaanan", LocalTime.parse("08:00:00"), LocalTime.parse("20:00:00"), 2);
         session.save(service2);
         session.flush();
         ClinicServices service3 = new ClinicServices("covid test", "Nesher", LocalTime.parse("08:00:00"), LocalTime.parse("18:00:00"), 2);
@@ -369,7 +369,7 @@ public class App {
         ClinicServices service4 = new ClinicServices("covid vaccine", "Hadar", LocalTime.parse("07:00:00"), LocalTime.parse("19:00:00"), 5);
         session.save(service4);
         session.flush();
-        ClinicServices service5 = new ClinicServices("covid vaccine", "Neve shaanan", LocalTime.parse("08:00:00"), LocalTime.parse("20:00:00"), 5);
+        ClinicServices service5 = new ClinicServices("covid vaccine", "Neve Shaanan", LocalTime.parse("08:00:00"), LocalTime.parse("20:00:00"), 5);
         session.save(service5);
         session.flush();
         ClinicServices service6 = new ClinicServices("covid vaccine", "Nesher", LocalTime.parse("08:00:00"), LocalTime.parse("18:00:00"), 5);
@@ -379,7 +379,7 @@ public class App {
         ClinicServices service7 = new ClinicServices("influenza vaccine", "Hadar", LocalTime.parse("07:00:00"), LocalTime.parse("19:00:00"), 5);
         session.save(service7);
         session.flush();
-        ClinicServices service8 = new ClinicServices("influenza vaccine", "Neve shaanan", LocalTime.parse("08:00:00"), LocalTime.parse("20:00:00"), 5);
+        ClinicServices service8 = new ClinicServices("influenza vaccine", "Neve Shaanan", LocalTime.parse("08:00:00"), LocalTime.parse("20:00:00"), 5);
         session.save(service8);
         session.flush();
         ClinicServices service9 = new ClinicServices("influenza vaccine", "Nesher", LocalTime.parse("08:00:00"), LocalTime.parse("18:00:00"), 5);
@@ -411,7 +411,7 @@ public class App {
         session.save(clinic1);
         session.flush();
 
-        Clinic clinic2 = new Clinic("Neve shaanan", "Haifa", LocalTime.parse("07:00:00"), LocalTime.parse("20:00:00"), null, "Hagalil 76", "04-8656322");
+        Clinic clinic2 = new Clinic("Neve Shaanan", "Haifa", LocalTime.parse("07:00:00"), LocalTime.parse("20:00:00"), null, "Hagalil 76", "04-8656322");
         clinic2.setSpecialists(true);
         clinic2.setLabServices(true);
         clinic2.setCovidTestService(true);
@@ -490,7 +490,7 @@ public class App {
         Random rand = new Random();
         String card_num = String.valueOf(Math.abs(rand.nextInt()));
         Doctor doc = getDoctor(9);
-        Clinic clinic = getClinic("Neve shaanan");
+        Clinic clinic = getClinic("Neve Shaanan");
         Patient pat1 = new Patient("DHolland", "DH1234", "Dana", "Holland", doc
                 , LocalDate.parse("1990-12-10"), card_num, "DHolland@life.com", "052-6574123", clinic, null);
         session.save(pat1);
@@ -523,7 +523,7 @@ public class App {
 
         card_num = String.valueOf(Math.abs(rand.nextInt()));
         doc = getDoctor(9);
-        clinic = getClinic("Neve shaanan");
+        clinic = getClinic("Neve Shaanan");
         Patient pat4 = new Patient("RGil", "RG1234", "Ronna", "Gil", doc
                 , LocalDate.parse("1945-06-21"), card_num, "RGil@life.com", "058-8645711", clinic, null);
         session.save(pat4);
@@ -589,7 +589,7 @@ public class App {
 
         card_num = String.valueOf(Math.abs(rand.nextInt()));
         doc = getDoctor(9);
-        clinic = getClinic("Neve shaanan");
+        clinic = getClinic("Neve Shaanan");
         Patient pat10 = new Patient("MHadad", "MH1234", "Moshe", "Hadad", doc
                 , LocalDate.parse("1964-03-21"), card_num, "MHadad@life.com", "054-7832654", clinic, null);
         session.save(pat10);
@@ -622,7 +622,7 @@ public class App {
 
         card_num = String.valueOf(Math.abs(rand.nextInt()));
         doc = getDoctor(9);
-        clinic = getClinic("Neve shaanan");
+        clinic = getClinic("Neve Shaanan");
         Patient pat13 = new Patient("ARaviv", "AR1234", "Alma", "Raviv", doc
                 , LocalDate.parse("2013-02-21"), card_num, "ARaviv@life.com", "052-2539861", clinic, null);
         session.save(pat13);
@@ -989,7 +989,7 @@ public class App {
         session.save(app20);
         currPat = getPatient("MRosen");
         sdoc = getSpecialDoctor(42);
-        app20 = new specialDoctorApp(LocalTime.parse("14:00"),LocalTime.parse("14:10"),true, LocalDate.parse("2022-01-11"), getClinic("Neve shaanan"), currPat, sdoc);
+        app20 = new specialDoctorApp(LocalTime.parse("14:00"),LocalTime.parse("14:10"),true, LocalDate.parse("2022-01-11"), getClinic("Neve Shaanan"), currPat, sdoc);
         session.save(app20);
         currPat = getPatient("MRosen");
         sdoc = getSpecialDoctor(42);
