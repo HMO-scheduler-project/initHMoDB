@@ -57,7 +57,6 @@ public class App {
         configuration.addAnnotatedClass(specialDoctorApp.class);
         configuration.addAnnotatedClass(User.class);
         configuration.addAnnotatedClass(ClinicServices.class);
-        configuration.addAnnotatedClass(MessageToManager.class);
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
         return configuration.buildSessionFactory(serviceRegistry);
     }
@@ -1009,6 +1008,22 @@ public class App {
         app30.setArrived(true);
         session.save(app30);
 
+        currPat = getPatient("DHolland");
+        sdoc = getSpecialDoctor(4);
+        specialDoctorApp app31 = new specialDoctorApp(LocalTime.parse("18:00"), LocalDate.parse("2022-01-19"), getClinic("Neve Shaanan"), currPat, sdoc);
+        session.save(app31);
+
+        currPat = getPatient("RGil");
+        sdoc = getSpecialDoctor(4);
+        app31 = new specialDoctorApp(LocalTime.parse("18:20"), LocalDate.parse("2022-01-19"), getClinic("Neve Shaanan"), currPat, sdoc);
+        session.save(app31);
+
+        currPat = getPatient("TShitrit");
+        sdoc = getSpecialDoctor(4);
+        app31 = new specialDoctorApp(LocalTime.parse("18:40"), LocalDate.parse("2022-01-19"), getClinic("Neve Shaanan"), currPat, sdoc);
+        session.save(app31);
+
+
         //data for presentation-----------------------------------------------------------
 
         doc = getDoctor(16);        //first doc
@@ -1112,11 +1127,11 @@ public class App {
 
 
     }
-    public static void initMessagesToManager(){
-        String body = "Hi Valeria"+"\nI need to go on vacation on 24.2.22."+"\nThanks in advance"+"\nNathan Dadon";
-        MessageToManager msg = new MessageToManager("Nathan Dadon","Valeria Silverman","vacation request",body);
-        session.save(msg);
-        body = "Hi Valeria\n"+"I need to go on vacation between 13.2 till 14.2.\n"+"Thanks in advance and have a nice day\n"+"Adi Levi";
+//    public static void initMessagesToManager(){
+//        String body = "Hi Valeria"+"\nI need to go on vacation on 24.2.22."+"\nThanks in advance"+"\nNathan Dadon";
+//        MessageToManager msg = new MessageToManager("Nathan Dadon","Valeria Silverman","vacation request",body);
+//        session.save(msg);
+//        body = "Hi Valeria\n"+"I need to go on vacation between 13.2 till 14.2.\n"+"Thanks in advance and have a nice day\n"+"Adi Levi";
 //        msg = new MessageToManager("Adi Levi","Valeria Silverman","vacation request",body);
 //        session.save(msg);
 //        msg = new MessageToManager("Elinor Peretz","Valeria Silverman","Leaving early on next Wednesday","Hi Valeria\nI need to leave early on next wednesday 26.2.2022 due to PTA meeting.\nThanks in advance and have a nice day\nElinor Peretz");
@@ -1127,7 +1142,7 @@ public class App {
 //        session.save(msg);
 //        msg = new MessageToManager("Anna Rodensky","Ruth Cohen","Inventory","Dear Ruth\nAs you are well aware we had an inventory yesterday.\nWe need to order more gloves,test tubes and septol.\nThanks in advance\nAnna Rodensky");
 //        session.save(msg);
-    }
+//    }
 
     public static LabWorker getLabWorkerByUsername(String username) {
         CriteriaBuilder builder = session.getCriteriaBuilder();
